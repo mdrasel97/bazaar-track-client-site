@@ -4,10 +4,13 @@ import "./index.css";
 import { RouterProvider } from "react-router";
 import { router } from "./routes/Routes.jsx";
 import { ToastContainer } from "react-toastify";
+import { ThemeProvider } from "./components/ui/theme-provider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
-    <ToastContainer />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </ThemeProvider>
   </StrictMode>
 );
