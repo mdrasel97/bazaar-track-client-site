@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Search, ShoppingCart, User, Menu } from "lucide-react";
 import Logo from "../logo/Logo";
 import { ModeToggle } from "../ui/mode-toggle";
+import { AuthContext } from "../../context/AuthContext";
+import AuthProvider from "../../context/AuthProvider";
 
 const Navbar = ({ totalItems = 0 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,7 +19,7 @@ const Navbar = ({ totalItems = 0 }) => {
     // Navigate or filter logic here
   };
   return (
-    <header className=" shadow-sm border-b sticky top-0 z-50">
+    <header className=" shadow-sm border-b sticky bg-accent top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
@@ -50,10 +52,7 @@ const Navbar = ({ totalItems = 0 }) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link
-              to="/products"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
+            <Link to="/products" className=" transition-colors">
               Products
             </Link>
             <ModeToggle />
@@ -106,10 +105,7 @@ const Navbar = ({ totalItems = 0 }) => {
               </div>
             </form>
             <div className="flex flex-col space-y-2">
-              <Link
-                to="/products"
-                className="text-gray-600 hover:text-gray-900 transition-colors py-2"
-              >
+              <Link to="/products" className=" transition-colors py-2">
                 Products
               </Link>
               <Link to="/cart" className="flex items-center space-x-2 py-2">
