@@ -2,9 +2,15 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
+import { useLocation, useNavigate } from "react-router";
 
 const GoogleLogin = () => {
   const { googleSignIn } = useAuth();
+  const axiosInstant = useAxios();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
 
   const handleGoogleLogin = () => {
     googleSignIn()
@@ -13,15 +19,17 @@ const GoogleLogin = () => {
 
         console.log(user);
         // update user profile in database
-        // const userInfo = {
-        //   email: user.email,
-        //   role: "user",
-        //   createdAt: new Date().toISOString(),
-        //   lastLogin: new Date().toISOString(),
-        // };
-        // const userRes = await axiosInstant.post("/users", userInfo);
-        // console.log("update user", userRes.data);
-        // navigate(from);
+        const userInfo = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          role: "user",
+          createdAt: new Date().toISOString(),
+          lastLogin: new Date().toISOString(),
+        };
+        const userRes = await axiosInstant.post("/users", userInfo);
+        console.log("update user", userRes.data);
+        navigate(from);
       })
       .catch((error) => {
         toast.error(error);

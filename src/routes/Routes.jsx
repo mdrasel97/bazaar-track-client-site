@@ -5,6 +5,7 @@ import DashboardLayout from "../layout/dashboardLayout/DashboardLayout";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import AuthLayout from "../layout/authLayout/AuthLayout";
+import Error from "../components/error/Error";
 
 export const router = createBrowserRouter([
   {
@@ -39,5 +40,9 @@ export const router = createBrowserRouter([
         path: "/dashboard",
       },
     ],
+  },
+  {
+    path: "*",
+    Component: Error,
   },
 ]);

@@ -23,8 +23,9 @@ const Login = () => {
   const onSubmit = (data) => {
     console.log(data);
     signInUser(data.email, data.password)
-      .then((result) => {
-        console.log(result);
+      .then(async (result) => {
+        const user = result.user;
+        console.log(user);
         navigate(from);
         toast.success("user sign in successfully");
       })

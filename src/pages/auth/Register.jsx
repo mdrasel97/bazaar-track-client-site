@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,19 +9,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
+import useAxios from "../../hooks/useAxios";
 
 const Register = () => {
-  const navigate = useNavigate();
+  const axiosInstant = useAxios();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
-
   const { createUser, updateUserProfile } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
 
     createUser(data.email, data.password)
@@ -29,13 +33,28 @@ const Register = () => {
         const user = result.user;
         console.log(user);
 
+        // database connect
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+          photoURL: data.photo,
+          role: "user",
+          createdAt: new Date().toISOString(),
+          lastLogin: new Date().toISOString(),
+        };
+
+        const userRes = await axiosInstant.post("/users", userInfo);
+        console.log(userRes.data);
+
         // update user profile in firebase
         const userProfile = {
           displayName: data.name,
           photoURL: data.photo,
         };
         updateUserProfile(userProfile);
-        navigate("/");
+        navigate(from);
+        // from reset
+        reset();
       })
       .catch((error) => {
         toast.error(error);
