@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -6,13 +6,15 @@ import { Badge } from "@/components/ui/badge";
 import { Search, ShoppingCart, User, Menu } from "lucide-react";
 import Logo from "../logo/Logo";
 import { ModeToggle } from "../ui/mode-toggle";
-import { AuthContext } from "../../context/AuthContext";
-import AuthProvider from "../../context/AuthProvider";
+import useAuth from "../../hooks/useAuth";
+import ProfileDropdown from "../../pages/profileDropdown/ProfileDropdown";
 
 const Navbar = ({ totalItems = 0 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const { user } = useAuth();
+  // const { email, name } = useContext(AuthContext);
+  // console.log(email, name);
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Searching for:", searchQuery);
@@ -67,12 +69,17 @@ const Navbar = ({ totalItems = 0 }) => {
               </Button>
             </Link>
 
-            <Link to="/login">
-              <Button variant="outline" size="sm">
-                <User className="w-4 h-4 mr-2" />
-                Login
-              </Button>
-            </Link>
+            {user ? (
+              // Show profile dropdown if logged in
+              <ProfileDropdown />
+            ) : (
+              <Link to="/login">
+                <Button variant="outline" size="sm">
+                  <User className="w-4 h-4 mr-2" />
+                  Login
+                </Button>
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Menu Toggle */}
