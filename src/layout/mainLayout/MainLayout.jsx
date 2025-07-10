@@ -18,7 +18,9 @@ const MainLayout = () => {
   return (
     <div>
       <Navbar />
-      <Outlet />
+      <div className="min-h-[190px]">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

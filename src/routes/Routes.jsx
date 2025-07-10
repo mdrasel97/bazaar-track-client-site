@@ -11,6 +11,7 @@ import AddProduct from "../pages/dashboard/vendor/AddProduct";
 import MyProducts from "../pages/dashboard/vendor/MyProducts";
 import UpdateProduct from "../pages/dashboard/vendor/UpdateProduct";
 import Products from "../pages/products/Products";
+import productsLoader from "../router/loader/productsLoader";
 
 export const router = createBrowserRouter([
   {
@@ -20,10 +21,12 @@ export const router = createBrowserRouter([
       {
         path: "/",
         Component: Home,
+        loader: () => fetch("http://localhost:5000/products"),
       },
       {
         path: "/products",
         Component: Products,
+        loader: productsLoader,
       },
     ],
   },

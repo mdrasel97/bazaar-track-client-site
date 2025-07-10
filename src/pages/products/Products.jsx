@@ -1,108 +1,94 @@
+import { useNavigate, useLocation, useLoaderData } from "react-router";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import ProductCard from "../../components/productCard/ProductCard";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Button } from "@/components/ui/button";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const products = useLoaderData();
+  console.log(products);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Fetch all products
+  const queryParams = new URLSearchParams(location.search);
+  const initialSort = queryParams.get("sort") || "";
+  const initialDate = queryParams.get("date") || null;
+
+  const [sort, setSort] = useState(initialSort);
+  const [selectedDate, setSelectedDate] = useState(
+    initialDate ? new Date(initialDate) : null
+  );
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get("/products");
-        setProducts(res.data);
-      } catch (error) {
-        toast.error("❌ Failed to load products");
-      } finally {
-        setLoading(false);
-      }
-    };
+    const params = new URLSearchParams();
+    if (sort) params.set("sort", sort);
+    if (selectedDate)
+      params.set("date", selectedDate.toISOString().split("T")[0]);
 
-    fetchProducts();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-60">
-        <Loader2 className="animate-spin w-6 h-6 text-blue-600" />
-        <span className="ml-2 text-blue-600 font-semibold">Loading...</span>
-      </div>
-    );
-  }
-
-  if (products.length === 0) {
-    return (
-      <div className="text-center text-gray-500 py-10">No products found.</div>
-    );
-  }
+    // navigate(`/products?${params.toString()}`);
+  }, [sort, selectedDate, navigate]);
 
   return (
     <div className="max-w-6xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-6">📦 All Products</h2>
 
-      <div className="overflow-x-auto border rounded-md">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Image</TableHead>
-              <TableHead>Item</TableHead>
-              <TableHead>Market</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Status</TableHead>
-              {/* <TableHead>Actions</TableHead> */}
-            </TableRow>
-          </TableHeader>
+      {/* Filters */}
+      <div className="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-md shadow mb-6">
+        {/* Date Picker */}
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
+          placeholderText="📅 Filter by date"
+          className="border px-3 py-2 rounded-md"
+          dateFormat="yyyy-MM-dd"
+        />
 
-          <TableBody>
-            {products.map((product) => (
-              <TableRow key={product._id}>
-                <TableCell>
-                  <img
-                    src={product.productImage}
-                    alt={product.itemName}
-                    className="w-14 h-14 object-cover rounded"
-                  />
-                </TableCell>
-                <TableCell>{product.itemName}</TableCell>
-                <TableCell>{product.marketName}</TableCell>
-                <TableCell>৳{product.pricePerUnit}</TableCell>
-                <TableCell>{product.date}</TableCell>
-                <TableCell>
-                  <span
-                    className={`capitalize px-2 py-1 rounded text-sm ${
-                      product.status === "pending"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : product.status === "approved"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {product.status}
-                  </span>
-                </TableCell>
-                {/* 
-                <TableCell>
-                  <Button size="sm" variant="outline">Update</Button>
-                  <Button size="sm" variant="destructive" className="ml-2">Delete</Button>
-                </TableCell>
-                */}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {/* Sort Dropdown */}
+        <Select value={sort} onValueChange={setSort}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="price-low">Price: Low to High</SelectItem>
+            <SelectItem value="price-high">Price: High to Low</SelectItem>
+            <SelectItem value="date-latest">Latest First</SelectItem>
+            <SelectItem value="date-oldest">Oldest First</SelectItem>
+          </SelectContent>
+        </Select>
+
+        {/* Reset Button */}
+        <Button
+          variant="outline"
+          onClick={() => {
+            setSort("");
+            setSelectedDate(null);
+            navigate("/products");
+          }}
+        >
+          Reset
+        </Button>
       </div>
+
+      {/* Product List */}
+      {products.length === 0 ? (
+        <div className="text-center text-gray-500 py-10">
+          No products found.
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
