@@ -6,6 +6,11 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import AuthLayout from "../layout/authLayout/AuthLayout";
 import Error from "../components/error/Error";
+import PrivateRoute from "./privateRoute/PrivateRoute";
+import AddProduct from "../pages/dashboard/vendor/AddProduct";
+import MyProducts from "../pages/dashboard/vendor/MyProducts";
+import UpdateProduct from "../pages/dashboard/vendor/UpdateProduct";
+import Products from "../pages/products/Products";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         Component: Home,
+      },
+      {
+        path: "/products",
+        Component: Products,
       },
     ],
   },
@@ -34,10 +43,25 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    Component: DashboardLayout,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
-        path: "/dashboard",
+        path: "/dashboard/addProducts",
+        Component: AddProduct,
+      },
+      {
+        path: "/dashboard/myProducts",
+        Component: MyProducts,
+      },
+      {
+        path: "/dashboard/updateProduct/:id",
+        Component: UpdateProduct,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/products/${params.id}`),
       },
     ],
   },

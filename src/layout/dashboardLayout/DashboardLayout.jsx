@@ -13,14 +13,24 @@ import {
   Layers,
   MonitorSpeaker,
   ListOrdered,
+  User,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ProfileDropdown from "../../pages/profileDropdown/ProfileDropdown";
+import useAuth from "../../hooks/useAuth";
 
 const DashboardLayout = () => {
   const location = useLocation();
+  const { user } = useAuth();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -125,7 +135,27 @@ const DashboardLayout = () => {
           </div>
 
           {/* Profile Dropdown */}
-          <ProfileDropdown />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar className="cursor-pointer">
+                <AvatarImage src={user?.photoURL} alt="User" />
+                <AvatarFallback>
+                  <User className="w-4 h-4" />
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link to="/profile">Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/">Home</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => alert("Logging out...")}>
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
 
