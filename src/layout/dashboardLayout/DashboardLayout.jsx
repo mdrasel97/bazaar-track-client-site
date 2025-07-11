@@ -63,12 +63,12 @@ const DashboardLayout = () => {
     },
     {
       label: "Add Advertisement",
-      path: "/dashboard/AddAdvertisement",
+      path: "/dashboard/addAdvertisement",
       icon: <Megaphone className="w-5 h-5 mr-2" />,
     },
     {
       label: "My Advertisements",
-      path: "/dashboard/myAdvertisement",
+      path: "/dashboard/myAdvertisements",
       icon: <BadgeDollarSign className="w-5 h-5 mr-2" />,
     },
     // admin
@@ -170,8 +170,8 @@ const DashboardLayout = () => {
                 to={item.path}
                 className={`flex items-center px-4 py-2 rounded-md transition ${
                   location.pathname === item.path
-                    ? "bg-blue-100 text-blue-600 font-medium"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? " text-blue-600 font-medium"
+                    : " hover:bg-blue-300 "
                 }`}
               >
                 {item.icon}

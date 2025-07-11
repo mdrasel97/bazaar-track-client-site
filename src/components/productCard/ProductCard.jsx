@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 
 const ProductCard = ({ product, viewMode, handleAddToCart }) => {
-  const { itemName, productImage } = product;
+  const { itemName, productImage, itemDescription, pricePerUnit } = product;
   return (
     <Card
       className={`group hover:shadow-lg transition-all duration-300 ${
@@ -40,9 +40,7 @@ const ProductCard = ({ product, viewMode, handleAddToCart }) => {
           </h3>
 
           {viewMode === "list" && (
-            <p className="text-gray-600 mb-3 line-clamp-2">
-              {product.description}
-            </p>
+            <p className="text-gray-600 mb-3 line-clamp-2">{itemDescription}</p>
           )}
 
           <div className="flex items-center mb-3">
@@ -69,7 +67,7 @@ const ProductCard = ({ product, viewMode, handleAddToCart }) => {
             }`}
           >
             <span className="text-2xl font-bold text-gray-900">
-              ৳{product.price}
+              ৳{pricePerUnit}
             </span>
             <div className="flex gap-2">
               <Link to={`/products/${product.id}`}>

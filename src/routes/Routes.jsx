@@ -12,6 +12,11 @@ import MyProducts from "../pages/dashboard/vendor/MyProducts";
 import UpdateProduct from "../pages/dashboard/vendor/UpdateProduct";
 import Products from "../pages/products/Products";
 import productsLoader from "../router/loader/productsLoader";
+import AddAdvertisement from "../pages/dashboard/vendor/AddAdvertisement";
+import MyAdvertisements from "../pages/dashboard/vendor/MyAdvertisements";
+import AllUsers from "../pages/dashboard/admin/AllUsers";
+import AllProduct from "../pages/dashboard/admin/AllProduct";
+import AllAdvertisement from "../pages/dashboard/admin/AllAdvertisement";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +70,27 @@ export const router = createBrowserRouter([
         Component: UpdateProduct,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/products/${params.id}`),
+      },
+      {
+        path: "/dashboard/AddAdvertisement",
+        Component: AddAdvertisement,
+      },
+      {
+        path: "/dashboard/myAdvertisements",
+        Component: MyAdvertisements,
+      },
+      // admin
+      {
+        path: "/dashboard/allUsers",
+        Component: AllUsers,
+      },
+      {
+        path: "/dashboard/allProducts",
+        Component: AllProduct,
+      },
+      {
+        path: "/dashboard/allAdvertisement",
+        Component: AllAdvertisement,
       },
     ],
   },
