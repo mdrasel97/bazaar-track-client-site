@@ -11,7 +11,7 @@ const AllProduct = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axiosSecure.get("/admin/products").then((res) => {
+    axiosSecure.get("/products").then((res) => {
       setProducts(res.data);
     });
   }, [axiosSecure]);

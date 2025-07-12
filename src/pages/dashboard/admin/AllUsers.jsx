@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -38,6 +39,22 @@ const AllUsers = () => {
     );
   }
 
+  const handleRoleChange = async (userId, role) => {
+    try {
+      const res = await axiosSecure.patch(`/users/${userId}/role`, { role });
+
+      if (res.data.modifiedCount > 0) {
+        toast.success(`✅ User promoted to ${role}`);
+        // refetch(); // Reload the user list
+      } else {
+        toast.error("❌ Failed to update role");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("❌ Something went wrong");
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-6">👥 All Users</h2>
@@ -51,6 +68,7 @@ const AllUsers = () => {
               <th className="py-3 px-4 border-b">Role</th>
               <th className="py-3 px-4 border-b">Provider</th>
               <th className="py-3 px-4 border-b">Joined</th>
+              <th className="py-3 px-4 border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -62,6 +80,35 @@ const AllUsers = () => {
                 <td className="py-3 px-4">{user.provider || "Unknown"}</td>
                 <td className="py-3 px-4">
                   {new Date(user.createdAt).toLocaleDateString()}
+                </td>
+                <td className="py-3 px-4 space-x-2">
+                  {user.role !== "admin" ? (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+                      onClick={() => handleRoleChange(user._id, "admin")}
+                    >
+                      Make Admin
+                    </Button>
+                  ) : (
+                    <button
+                      className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+                      disabled
+                    >
+                      admin
+                    </button>
+                  )}
+                  {user.role !== "vendor" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white"
+                      onClick={() => handleRoleChange(user._id, "vendor")}
+                    >
+                      Make Vendor
+                    </Button>
+                  )}
                 </td>
               </tr>
             ))}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Trash2, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { Link } from "react-router";
 
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([
@@ -150,6 +151,10 @@ const ShoppingCart = () => {
             <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
               Proceed to Checkout
             </Button>
+
+            <div>
+              <Link to={"/products"}>Continue Shopping </Link>
+            </div>
           </div>
         </div>
       )}
