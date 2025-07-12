@@ -6,7 +6,7 @@ import ProductCard from "../../components/productCard/ProductCard";
 
 const Home = () => {
   const products = useLoaderData();
-  console.log(products);
+  // console.log(products);
   return (
     <div>
       <Banner />
@@ -14,7 +14,7 @@ const Home = () => {
         <h2 className="text-2xl font-bold text-center my-5">
           Featured Products
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-11/12 mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 w-11/12 mx-auto">
           {products.map((product) => (
             <ProductCard key={product._id} product={product}></ProductCard>
           ))}

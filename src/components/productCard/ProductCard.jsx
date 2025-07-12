@@ -6,7 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 
 const ProductCard = ({ product, viewMode, handleAddToCart }) => {
-  const { itemName, productImage, itemDescription, pricePerUnit } = product;
+  const { _id, itemName, productImage, itemDescription, pricePerUnit } =
+    product;
   return (
     <Card
       className={`group hover:shadow-lg transition-all duration-300 ${
@@ -14,11 +15,11 @@ const ProductCard = ({ product, viewMode, handleAddToCart }) => {
       }`}
     >
       <CardContent
-        className={`p-6 ${viewMode === "list" ? "flex w-full gap-6" : ""}`}
+        className={` ${viewMode === "list" ? "flex w-full gap-6" : ""}`}
       >
         <div
           className={`${
-            viewMode === "list" ? "w-48 h-48 flex-shrink-0" : "aspect-square"
+            viewMode === "list" ? "w-40 h-40 flex-shrink-0" : "aspect-square"
           } bg-gray-100 rounded-lg mb-4 overflow-hidden`}
         >
           <img
@@ -69,20 +70,20 @@ const ProductCard = ({ product, viewMode, handleAddToCart }) => {
             <span className="text-2xl font-bold text-gray-900">
               ৳{pricePerUnit}
             </span>
-            <div className="flex gap-2">
-              <Link to={`/products/${product.id}`}>
-                <Button size="sm" variant="outline">
-                  View
-                </Button>
-              </Link>
-              <Button
-                size="sm"
-                onClick={() => handleAddToCart(product)}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-              >
-                Add to Cart
+          </div>
+          <div className="flex gap-2 justify-between items-center mt-5">
+            <Link to={`/products/${product._id}`}>
+              <Button size="sm" variant="outline">
+                View
               </Button>
-            </div>
+            </Link>
+            <Button
+              size="sm"
+              onClick={() => handleAddToCart(product)}
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+            >
+              Add to Cart
+            </Button>
           </div>
         </div>
       </CardContent>

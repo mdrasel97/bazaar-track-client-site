@@ -17,6 +17,8 @@ import MyAdvertisements from "../pages/dashboard/vendor/MyAdvertisements";
 import AllUsers from "../pages/dashboard/admin/AllUsers";
 import AllProduct from "../pages/dashboard/admin/AllProduct";
 import AllAdvertisement from "../pages/dashboard/admin/AllAdvertisement";
+import ViewDetails from "../pages/viewDetails/ViewDetails";
+import ShoppingCart from "../pages/shoppingCart/ShoppingCart";
 
 export const router = createBrowserRouter([
   {
@@ -26,12 +28,32 @@ export const router = createBrowserRouter([
       {
         path: "/",
         Component: Home,
-        loader: () => fetch("http://localhost:5000/products"),
+        loader: () => fetch("http://localhost:5000/products/home"),
       },
       {
         path: "/products",
         Component: Products,
         loader: productsLoader,
+      },
+      {
+        path: "/products/:id",
+        element: (
+          <PrivateRoute>
+            <ViewDetails></ViewDetails>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/products/${params.id}`),
+      },
+      {
+        path: "/cart",
+        element: (
+          <PrivateRoute>
+            <ShoppingCart></ShoppingCart>
+          </PrivateRoute>
+        ),
+        // loader: ({ params }) =>
+        //   fetch(`http://localhost:5000/products/${params.id}`),
       },
     ],
   },
