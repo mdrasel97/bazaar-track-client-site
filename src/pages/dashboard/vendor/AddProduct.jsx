@@ -139,6 +139,14 @@ const AddProduct = () => {
             {...register("itemName", { required: true })}
           />
         </div>
+        <div>
+          <Label className="mb-2">Category</Label>
+          <Input
+            type="text"
+            placeholder="e.g. Onion"
+            {...register("itemName", { required: true })}
+          />
+        </div>
 
         <div>
           <Label className="mb-2">Product Image (URL or Upload)</Label>

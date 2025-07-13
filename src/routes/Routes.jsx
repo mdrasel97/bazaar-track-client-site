@@ -19,6 +19,7 @@ import AllProduct from "../pages/dashboard/admin/AllProduct";
 import AllAdvertisement from "../pages/dashboard/admin/AllAdvertisement";
 import ViewDetails from "../pages/viewDetails/ViewDetails";
 import ShoppingCart from "../pages/shoppingCart/ShoppingCart";
+import HelpCenter from "../pages/helpCenter/HelpCenter";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
         path: "/products",
         Component: Products,
         loader: productsLoader,
+      },
+      {
+        path: "/help",
+        Component: HelpCenter,
       },
       {
         path: "/products/:id",

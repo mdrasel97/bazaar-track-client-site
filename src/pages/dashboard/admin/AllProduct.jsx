@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
+import { Check, Pencil, Trash, X } from "lucide-react";
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -122,35 +123,37 @@ const AllProduct = () => {
                     </div>
                   )}
                 </td>
-                <td className="p-3 text-right space-x-2">
-                  {p.status === "pending" && (
-                    <>
-                      <Button size="sm" onClick={() => handleApprove(p._id)}>
-                        Approve
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleReject(p._id)}
-                      >
-                        Reject
-                      </Button>
-                    </>
-                  )}
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleUpdate(p._id)}
-                  >
-                    Update
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => handleDelete(p._id)}
-                  >
-                    Delete
-                  </Button>
+                <td className="p-3 text-right">
+                  <div className="flex flex-wrap justify-end items-center gap-2">
+                    {p.status === "pending" && (
+                      <>
+                        <Button size="sm" onClick={() => handleApprove(p._id)}>
+                          <Check className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleReject(p._id)}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </>
+                    )}
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleUpdate(p._id)}
+                    >
+                      <Pencil className="w-4 h-4 mr-1" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDelete(p._id)}
+                    >
+                      <Trash />
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}
