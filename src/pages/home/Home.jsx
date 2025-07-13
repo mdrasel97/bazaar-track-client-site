@@ -3,6 +3,8 @@ import Banner from "./Banner";
 import WhyChooseBazaarTrack from "./WhyChooseBazaarTrack";
 import { useLoaderData } from "react-router";
 import ProductCard from "../../components/productCard/ProductCard";
+import Contact from "./Contact";
+import AdvertisementHighlights from "./AdvertisementHighlights";
 
 const Home = () => {
   const products = useLoaderData();
@@ -21,6 +23,8 @@ const Home = () => {
         </div>
       </div>
       <WhyChooseBazaarTrack />
+      <AdvertisementHighlights />
+      <Contact />
     </div>
   );
 };

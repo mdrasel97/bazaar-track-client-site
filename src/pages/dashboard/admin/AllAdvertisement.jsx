@@ -21,6 +21,7 @@ const AllAdvertisement = () => {
       const res = await axiosSecure.patch(`/admin/advertisements/${id}`, {
         status,
       });
+
       if (res.data.modifiedCount > 0) {
         toast.success(`Advertisement ${status}`);
         setAds((prev) =>
@@ -66,7 +67,7 @@ const AllAdvertisement = () => {
             <tr>
               <th className="p-3">Banner</th>
               <th className="p-3">Title</th>
-              <th className="p-3">Description</th>
+              <th className="p-3">Date</th>
               <th className="p-3">Vendor</th>
               <th className="p-3">Status</th>
               <th className="p-3 text-right">Actions</th>
@@ -83,7 +84,9 @@ const AllAdvertisement = () => {
                   />
                 </td>
                 <td className="p-3">{ad.title}</td>
-                <td className="p-3 line-clamp-2">{ad.description}</td>
+                <td className="p-3 line-clamp-2">
+                  {new Date(ad.createdAt).toLocaleDateString()}
+                </td>
                 <td className="p-3">{ad.vendorEmail}</td>
                 <td className="p-3 capitalize">{ad.status}</td>
                 <td className="p-3 text-right space-x-2">

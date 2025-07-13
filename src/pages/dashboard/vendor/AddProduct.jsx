@@ -143,8 +143,8 @@ const AddProduct = () => {
           <Label className="mb-2">Category</Label>
           <Input
             type="text"
-            placeholder="e.g. Onion"
-            {...register("itemName", { required: true })}
+            placeholder="Fresh Vegetables, Fresh Fruits, Fish & Meat, Rice & Grains, Spices, Cooking Oil,Dairy & Eggs, Dry Food"
+            {...register("category", { required: true })}
           />
         </div>
 
