@@ -1,3 +1,51 @@
+// hooks/useUserRole.js
+import { useEffect, useState } from "react";
+import useAuth from "./useAuth";
+import useAxiosSecure from "./useAxiosSecure";
+
+const useUserRole = () => {
+  const { user, loading } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const [role, setRole] = useState("user");
+  const [roleLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchUserRole =
+    (async () => {
+      if (!user?.email) return;
+
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await axiosSecure.get(`/users/${user.email}/role`);
+        setRole(res.data.role || "user");
+      } catch (err) {
+        setError("Failed to fetch user role", err);
+        setRole("user");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [user?.email, axiosSecure]);
+
+  useEffect(() => {
+    if (!loading && user?.email) {
+      fetchUserRole();
+    }
+  }, [loading, user?.email, fetchUserRole]);
+
+  if (!user || role !== "admin") {
+    return (
+      <Navigate state={{ from: location.pathname }} to="/forbidden"></Navigate>
+    );
+  }
+
+  return { role, roleLoading, error, refetch: fetchUserRole };
+};
+
+export default useUserRole;
+
 // // hooks/useUserRole.js
 
 // import useAuth from "./useAuth";

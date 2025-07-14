@@ -16,8 +16,11 @@ const AllUsers = () => {
     setLoading(true);
     try {
       const res = await axiosSecure.get(`/users/search?email=${searchEmail}`);
-      if (res.data) {
-        setSearchedUser(res.data);
+
+      // setSearchedUser(res.data);
+      if (res.data.length > 0) {
+        setSearchedUser(res.data[0]); // just pick first match
+        console.log("✅ Found User:", res.data[0]);
       } else {
         setSearchedUser(null);
         toast.info("User not found.");
