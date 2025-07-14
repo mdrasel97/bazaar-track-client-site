@@ -1,55 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Trash2, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
 
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Premium Headphones",
-      price: 299,
-      quantity: 2,
-      description:
-        "Experience superior sound quality with these premium wireless headphones. Featuring advanced noise cancellation technology...",
-    },
-    {
-      id: 2,
-      name: "Smart Watch Pro",
-      price: 199,
-      quantity: 3,
-      description: "Advanced smartwatch with health monitoring",
-    },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
 
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartItems(savedCart);
+  }, []);
+
+  // quantity change
   const handleQuantityChange = (id, delta) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
+    setCartItems((prev) => {
+      const updatedCart = prev.map((item) =>
+        item._id === id
           ? {
               ...item,
               quantity: Math.max(1, item.quantity + delta),
             }
           : item
-      )
-    );
+      );
+      // localStorage update
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
+  // item delete handler
   const handleDeleteItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    setCartItems((prev) => {
+      const updatedCart = prev.filter((item) => item._id !== id);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
     toast.success("Item removed from cart");
   };
 
+  // clear cart
   const handleClearCart = () => {
     setCartItems([]);
+    localStorage.removeItem("cart");
     toast.success("Cart cleared");
   };
 
+  // subtotal calculation
   const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.pricePerUnit * item.quantity,
     0
   );
+
+  // tax and total
   const tax = +(subtotal * 0.08).toFixed(2); // 8% tax
   const shipping = 0;
   const total = (subtotal + tax + shipping).toFixed(2);
@@ -71,16 +74,16 @@ const ShoppingCart = () => {
           <div className="lg:col-span-2 space-y-5">
             {cartItems.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white rounded-lg p-4 shadow-sm"
               >
                 <div className="flex-1">
-                  <h2 className="text-lg font-semibold">{item.name}</h2>
+                  <h2 className="text-lg font-semibold">{item.itemName}</h2>
                   <p className="text-sm text-gray-500 line-clamp-2">
-                    {item.description}
+                    {item.itemDescription || "No description available"}
                   </p>
                   <p className="mt-1 font-semibold text-gray-800">
-                    ${item.price}
+                    ৳ {item.pricePerUnit}
                   </p>
                 </div>
 
@@ -88,7 +91,7 @@ const ShoppingCart = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleQuantityChange(item.id, -1)}
+                    onClick={() => handleQuantityChange(item._id, -1)}
                     disabled={item.quantity <= 1}
                   >
                     <Minus className="w-4 h-4" />
@@ -99,7 +102,7 @@ const ShoppingCart = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleQuantityChange(item.id, 1)}
+                    onClick={() => handleQuantityChange(item._id, 1)}
                   >
                     <Plus className="w-4 h-4" />
                   </Button>
@@ -107,11 +110,11 @@ const ShoppingCart = () => {
 
                 <div className="mt-3 sm:mt-0 flex items-center gap-3">
                   <span className="text-lg font-bold text-gray-900">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ৳ {(item.pricePerUnit * item.quantity).toFixed(2)}
                   </span>
                   <Button
                     variant="ghost"
-                    onClick={() => handleDeleteItem(item.id)}
+                    onClick={() => handleDeleteItem(item._id)}
                   >
                     <Trash2 className="w-5 h-5 text-red-500" />
                   </Button>
@@ -133,7 +136,7 @@ const ShoppingCart = () => {
             <h3 className="text-xl font-bold mb-3">Order Summary</h3>
             <div className="flex justify-between text-gray-700">
               <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>৳ {subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-700">
               <span>Shipping</span>
@@ -141,12 +144,12 @@ const ShoppingCart = () => {
             </div>
             <div className="flex justify-between text-gray-700">
               <span>Tax (8%)</span>
-              <span>${tax}</span>
+              <span>৳ {tax}</span>
             </div>
             <hr />
             <div className="flex justify-between text-xl font-bold">
               <span>Total</span>
-              <span>${total}</span>
+              <span>৳ {total}</span>
             </div>
             <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
               Proceed to Checkout

@@ -22,6 +22,10 @@ const ViewDetails = () => {
     rating,
     reviews,
     pricePerUnit,
+    marketName,
+    date,
+    vendorName,
+    vendorEmail,
   } = useLoaderData();
   // console.log(product);
 
@@ -34,6 +38,14 @@ const ViewDetails = () => {
     });
   };
 
+  const specifications = {
+    marketName: marketName,
+    Model: "PA-X1000",
+    Connectivity: "Bluetooth 5.0, 3.5mm Jack",
+    "Battery Life": "Up to 30 hours",
+    Weight: "250g",
+    Warranty: "2 years",
+  };
   const handleAddToCart = () => {
     // handle cart logic
     console.log("Add to cart with quantity:", quantity);
@@ -162,13 +174,11 @@ const ViewDetails = () => {
         </div>
 
         {/* Product Details Tabs */}
-        {/* <div className="mt-12">
+        <div className="mt-12">
           <Tabs defaultValue="specifications" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="specifications">Specifications</TabsTrigger>
-              <TabsTrigger value="reviews">
-                Reviews ({product.reviews})
-              </TabsTrigger>
+              <TabsTrigger value="reviews">Reviews ({reviews})</TabsTrigger>
               <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
             </TabsList>
 
@@ -176,17 +186,39 @@ const ViewDetails = () => {
               <Card>
                 <CardContent className="p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Object.entries(specifications).map(([key, value]) => (
-                      <div
-                        key={key}
-                        className="flex justify-between py-2 border-b border-gray-100 last:border-b-0"
-                      >
-                        <span className="font-medium text-gray-900">
-                          {key}:
-                        </span>
-                        <span className="text-gray-600">{value}</span>
-                      </div>
-                    ))}
+                    {/* Market Name */}
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-900">
+                        Market Name:
+                      </span>
+                      <span className="text-gray-600">{marketName}</span>
+                    </div>
+
+                    {/* Date */}
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-900">Date:</span>
+                      <span className="text-gray-600">{date}</span>
+                    </div>
+
+                    {/* Full item list with prices */}
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-900">
+                        Item & Price:
+                      </span>
+                      <span className="text-gray-600">
+                        🥒{" "}
+                        {itemName.charAt(0).toUpperCase() + itemName.slice(1)} —
+                        ৳{pricePerUnit}/kg
+                      </span>
+                    </div>
+
+                    {/* Vendor Info */}
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-900">Vendor:</span>
+                      <span className="text-gray-600">
+                        {vendorName} ({vendorEmail})
+                      </span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -194,7 +226,7 @@ const ViewDetails = () => {
 
             <TabsContent value="reviews" className="mt-6">
               <div className="space-y-6">
-                {reviews.map((review) => (
+                {/* {reviews.map((review) => (
                   <Card key={review.id}>
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-3">
@@ -224,7 +256,7 @@ const ViewDetails = () => {
                       <p className="text-gray-600">{review.comment}</p>
                     </CardContent>
                   </Card>
-                ))}
+                ))} */}
               </div>
             </TabsContent>
 
@@ -257,7 +289,7 @@ const ViewDetails = () => {
               </Card>
             </TabsContent>
           </Tabs>
-        </div> */}
+        </div>
       </div>
     </div>
   );

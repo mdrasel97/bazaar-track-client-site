@@ -10,11 +10,14 @@ import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 const AddProduct = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [imageURL, setImageURL] = useState("");
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -27,15 +30,17 @@ const AddProduct = () => {
 
   const onSubmit = (data) => {
     const productData = {
-      vendorEmail: data.vendorEmail,
-      vendorName: data.vendorName,
-      marketName: data.marketName,
+      // vendorEmail: data.vendorEmail,
+      // vendorName: data.vendorName,
+      // marketName: data.marketName,
+      ...data,
       date: selectedDate.toISOString().split("T")[0],
-      marketDescription: data.marketDescription,
-      itemName: data.itemName,
+      // marketDescription: data.marketDescription,
+      // itemName: data.itemName,
       status: "pending",
-      productImage: data.image,
-      pricePerUnit: data.pricePerUnit,
+      productImage: imageURL,
+      category: data.category,
+      // pricePerUnit: data.pricePerUnit,
       prices: [
         {
           date: selectedDate.toISOString().split("T")[0],
@@ -54,6 +59,32 @@ const AddProduct = () => {
       navigate("/dashboard/myProducts");
     });
     reset();
+  };
+
+  // handle image upload
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${
+      import.meta.env.VITE_image_upload_key
+    }`;
+
+    try {
+      const res = await axios.post(imageUploadUrl, formData);
+      if (res.data.success) {
+        const uploadedUrl = res.data.data.url;
+        setImageURL(uploadedUrl); // Set image URL to state
+        toast.success("✅ Image uploaded successfully");
+      } else {
+        toast.error("❌ Image upload failed");
+      }
+    } catch (err) {
+      toast.error("❌ Upload error: " + err.message);
+    }
   };
 
   return (
@@ -149,11 +180,13 @@ const AddProduct = () => {
         </div>
 
         <div>
-          <Label className="mb-2">Product Image (URL or Upload)</Label>
+          <Label className="mb-2">Product Image (Upload)</Label>
           <Input
-            type="text"
-            placeholder="Image URL (use imgbb or others)"
-            {...register("image", { required: true })}
+            type="file"
+            accept="image/*"
+            placeholder="upload your product image"
+            onChange={handleImageUpload}
+            // {...register("image", { required: true })}
           />
         </div>
 

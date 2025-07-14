@@ -6,13 +6,16 @@ import { router } from "./routes/Routes.jsx";
 import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "./components/ui/theme-provider.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
+import { CartProvider } from "./context/CartContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <RouterProvider router={router} />
-        <ToastContainer />
+        <CartProvider>
+          <RouterProvider router={router} />
+          <ToastContainer />
+        </CartProvider>
       </ThemeProvider>
     </AuthProvider>
   </StrictMode>

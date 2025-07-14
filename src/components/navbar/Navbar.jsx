@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,11 +8,13 @@ import Logo from "../logo/Logo";
 import { ModeToggle } from "../ui/mode-toggle";
 import useAuth from "../../hooks/useAuth";
 import ProfileDropdown from "../../pages/profileDropdown/ProfileDropdown";
+import { CartContext } from "../../context/CartContext";
 
-const Navbar = ({ totalItems = 0 }) => {
+const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { user } = useAuth();
+  const { totalItems } = useContext(CartContext);
   // const { email, name } = useContext(AuthContext);
   // console.log(email, name);
   const handleSearch = (e) => {
@@ -20,6 +22,23 @@ const Navbar = ({ totalItems = 0 }) => {
     console.log("Searching for:", searchQuery);
     // Navigate or filter logic here
   };
+
+  // useEffect(() => {
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+  //   setTotalItems(total);
+  // }, []);
+
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //     const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+  //     setTotalItems(total);
+  //   };
+
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => window.removeEventListener("storage", handleStorageChange);
+  // }, []);
   return (
     <header className=" shadow-sm border-b sticky bg-accent top-0 z-50">
       <div className="container mx-auto px-4 py-4">

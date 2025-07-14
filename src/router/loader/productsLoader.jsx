@@ -6,7 +6,7 @@ const productsLoader = async ({ request }) => {
   const sort = url.searchParams.get("sort");
   const date = url.searchParams.get("date");
 
-  let query = `${import.meta.env.VITE_API_BASE}/products`;
+  let query = `${import.meta.env.VITE_API_BASE}/products/approved`;
   const params = new URLSearchParams();
 
   if (sort) params.append("sort", sort);
