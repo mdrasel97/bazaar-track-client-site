@@ -1,48 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Trash2, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
+import { CartContext } from "../../context/CartContext";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
+  const { cartItems, updateCart } = useContext(CartContext);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(savedCart);
-  }, []);
-
-  // quantity change
   const handleQuantityChange = (id, delta) => {
-    setCartItems((prev) => {
-      const updatedCart = prev.map((item) =>
-        item._id === id
-          ? {
-              ...item,
-              quantity: Math.max(1, item.quantity + delta),
-            }
-          : item
-      );
-      // localStorage update
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
+    const updatedCart = cartItems.map((item) =>
+      item._id === id
+        ? {
+            ...item,
+            quantity: Math.max(1, item.quantity + delta),
+          }
+        : item
+    );
+    updateCart(updatedCart); // ✅ context update
   };
 
-  // item delete handler
   const handleDeleteItem = (id) => {
-    setCartItems((prev) => {
-      const updatedCart = prev.filter((item) => item._id !== id);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
+    const updatedCart = cartItems.filter((item) => item._id !== id);
+    updateCart(updatedCart); // ✅ Global update
     toast.success("Item removed from cart");
   };
 
   // clear cart
   const handleClearCart = () => {
-    setCartItems([]);
-    localStorage.removeItem("cart");
+    updateCart([]); // ✅ Global context update
     toast.success("Cart cleared");
   };
 
@@ -56,6 +46,30 @@ const ShoppingCart = () => {
   const tax = +(subtotal * 0.08).toFixed(2); // 8% tax
   const shipping = 0;
   const total = (subtotal + tax + shipping).toFixed(2);
+
+  // data to mongoDB
+  const handleCheckout = async () => {
+    try {
+      const orderData = {
+        userEmail: user?.email,
+        cartItems,
+        total,
+        createdAt: new Date(),
+      };
+
+      const response = await useAxiosSecure.post("/cartCheckOut", orderData);
+
+      if (response.status === 201) {
+        toast.success("🛒 Order placed successfully!");
+        updateCart([]);
+      } else {
+        toast.error("❌ Failed to place order");
+      }
+    } catch (err) {
+      toast.error("🚫 Server Error");
+      console.log(err.message);
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -151,7 +165,10 @@ const ShoppingCart = () => {
               <span>Total</span>
               <span>৳ {total}</span>
             </div>
-            <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+            <Button
+              onClick={handleCheckout}
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+            >
               Proceed to Checkout
             </Button>
 

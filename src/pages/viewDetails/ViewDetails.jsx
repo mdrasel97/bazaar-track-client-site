@@ -12,10 +12,24 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLoaderData } from "react-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "../../context/CartContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogDescription,
+} from "@/components/ui/dialog";
+// import BuyNowForm from "../payment/BuyNowForm";
+import Payment from "../payment/Payment";
 
 const ViewDetails = () => {
+  const product = useLoaderData();
+  // console.log(product);
   const {
+    _id,
     itemDescription,
     itemName,
     productImage,
@@ -26,10 +40,11 @@ const ViewDetails = () => {
     date,
     vendorName,
     vendorEmail,
-  } = useLoaderData();
-  // console.log(product);
+  } = product;
 
   const [quantity, setQuantity] = useState(1); // default quantity
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleQuantityChange = (delta) => {
     setQuantity((prev) => {
@@ -38,18 +53,37 @@ const ViewDetails = () => {
     });
   };
 
-  const specifications = {
-    marketName: marketName,
-    Model: "PA-X1000",
-    Connectivity: "Bluetooth 5.0, 3.5mm Jack",
-    "Battery Life": "Up to 30 hours",
-    Weight: "250g",
-    Warranty: "2 years",
-  };
+  const { cartItems, updateCart } = useContext(CartContext);
+
   const handleAddToCart = () => {
-    // handle cart logic
-    console.log("Add to cart with quantity:", quantity);
+    const productToAdd = {
+      _id,
+      itemName,
+      pricePerUnit,
+      productImage,
+      quantity,
+    };
+
+    const existingCart = [...cartItems];
+    const isAlreadyInCart = existingCart.find((item) => item._id === _id);
+
+    if (isAlreadyInCart) {
+      const updatedCart = existingCart.map((item) =>
+        item._id === _id
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      );
+      updateCart(updatedCart);
+    } else {
+      updateCart([...existingCart, productToAdd]);
+    }
   };
+
+  // const handlePay = (id) => {
+  //   console.log("procid to pay", id);
+  //   navigate(`/payment/${id}`);
+  // };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
@@ -75,25 +109,8 @@ const ViewDetails = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="grid grid-cols-4 gap-2">
-              {/* {images.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`aspect-square bg-white rounded-lg overflow-hidden border-2 transition-colors ${
-                    selectedImage === index
-                      ? "border-purple-600"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <img
-                    src={image}
-                    alt={`${product.name} ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))} */}
-            </div>
+            {/* <div className="grid grid-cols-4 gap-2">
+            </div> */}
           </div>
 
           {/* Product Info */}
@@ -157,6 +174,34 @@ const ViewDetails = () => {
               </div>
 
               <div className="flex gap-3">
+                <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      onClick={() => {
+                        setSelectedProduct(product);
+                        setOpen(true);
+                      }}
+                      className="bg-red-600 flex-1"
+                    >
+                      Buy Now
+                    </Button>
+                  </DialogTrigger>
+
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle></DialogTitle>
+                      <DialogDescription></DialogDescription>
+                    </DialogHeader>
+
+                    {selectedProduct && (
+                      <Payment
+                        amount={pricePerUnit * quantity}
+                        closeModal={() => setOpen(false)}
+                      ></Payment>
+                    )}
+                  </DialogContent>
+                </Dialog>
+
                 <Button
                   onClick={handleAddToCart}
                   className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"

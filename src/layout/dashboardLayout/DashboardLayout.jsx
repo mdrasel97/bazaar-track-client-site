@@ -41,8 +41,8 @@ const DashboardLayout = () => {
       icon: <BarChart2 className="w-5 h-5 mr-2" />,
     },
     {
-      label: "Manage Watchlist",
-      path: "/dashboard/watchlist",
+      label: "Manage WatchList",
+      path: "/dashboard/watchList",
       icon: <Heart className="w-5 h-5 mr-2" />,
     },
     {

@@ -20,6 +20,8 @@ import AllAdvertisement from "../pages/dashboard/admin/AllAdvertisement";
 import ViewDetails from "../pages/viewDetails/ViewDetails";
 import ShoppingCart from "../pages/shoppingCart/ShoppingCart";
 import HelpCenter from "../pages/helpCenter/HelpCenter";
+import ManageWatchList from "../pages/dashboard/user/ManageWatchlist";
+import Payment from "../pages/payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +51,14 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/products/${params.id}`),
+      },
+      {
+        path: "/payment/:id",
+        element: (
+          <PrivateRoute>
+            <Payment></Payment>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/cart",
@@ -84,6 +94,11 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        path: "/dashboard/watchList",
+        Component: ManageWatchList,
+      },
+      // vendor route
       {
         path: "/dashboard/addProducts",
         Component: AddProduct,
