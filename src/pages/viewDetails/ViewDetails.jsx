@@ -197,6 +197,7 @@ const ViewDetails = () => {
                       <Payment
                         amount={pricePerUnit * quantity}
                         closeModal={() => setOpen(false)}
+                        selectedProduct={selectedProduct}
                       ></Payment>
                     )}
                   </DialogContent>

@@ -4,13 +4,17 @@ import { useForm } from "react-hook-form";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
 
-const BuyNowForm = ({ amount, closeModal }) => {
+const BuyNowForm = ({ amount, closeModal, selectedProduct }) => {
   console.log("Amount received in Payment component:", amount);
   const { handleSubmit } = useForm();
   const stripe = useStripe();
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async () => {
     if (!stripe || !elements) {
@@ -37,10 +41,35 @@ const BuyNowForm = ({ amount, closeModal }) => {
     if (result.error) {
       toast.error(result.error.message);
     } else {
+      // payment data db save
       if (result.paymentIntent.status === "succeeded") {
-        toast.success("✅ Payment Successful!");
-        closeModal();
-        // Save to DB if needed
+        // 🟩 Step: Prepare data
+        const paymentInfo = {
+          //userEmail, productId
+          userEmail: user?.email,
+          marketName: selectedProduct?.marketName,
+          productId: selectedProduct?._id,
+          productName: selectedProduct?.name,
+          amount,
+          transactionId: result.paymentIntent.id,
+          status: "paid",
+          createdAt: new Date(),
+        };
+
+        // 🟩 Step: Send to backend
+        try {
+          const saveRes = await axiosSecure.post("/payments", paymentInfo);
+          if (saveRes.data.insertedId) {
+            toast.success("✅ Payment Successful!");
+            navigate("/dashboard/myOrders");
+          }
+        } catch (error) {
+          toast.error("❌ Failed to save payment");
+          console.error(error);
+        }
+
+        // Close the modal
+        if (typeof closeModal === "function") closeModal();
       }
     }
   };

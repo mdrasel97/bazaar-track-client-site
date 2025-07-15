@@ -22,6 +22,7 @@ import ShoppingCart from "../pages/shoppingCart/ShoppingCart";
 import HelpCenter from "../pages/helpCenter/HelpCenter";
 import ManageWatchList from "../pages/dashboard/user/ManageWatchlist";
 import Payment from "../pages/payment/Payment";
+import MyOrderList from "../pages/dashboard/user/MyOrderList";
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +95,11 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      // user
+      {
+        path: "/dashboard/myOrders",
+        Component: MyOrderList,
+      },
       {
         path: "/dashboard/watchList",
         Component: ManageWatchList,

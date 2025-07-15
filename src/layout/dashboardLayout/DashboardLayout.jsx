@@ -47,7 +47,7 @@ const DashboardLayout = () => {
     },
     {
       label: "My Orders",
-      path: "/dashboard/orders",
+      path: "/dashboard/myOrders",
       icon: <Package className="w-5 h-5 mr-2" />,
     },
     // vendor
