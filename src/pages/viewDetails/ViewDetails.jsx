@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   Star,
   ArrowLeft,
@@ -24,6 +24,9 @@ import {
 } from "@/components/ui/dialog";
 // import BuyNowForm from "../payment/BuyNowForm";
 import Payment from "../payment/Payment";
+import { toast } from "react-toastify";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const ViewDetails = () => {
   const product = useLoaderData();
@@ -45,6 +48,9 @@ const ViewDetails = () => {
   const [quantity, setQuantity] = useState(1); // default quantity
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [open, setOpen] = useState(false);
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleQuantityChange = (delta) => {
     setQuantity((prev) => {
@@ -83,6 +89,31 @@ const ViewDetails = () => {
   //   console.log("procid to pay", id);
   //   navigate(`/payment/${id}`);
   // };
+
+  // watch list
+  const handleAddToWatchList = async () => {
+    const watchItem = {
+      email: user?.email,
+      itemName,
+      marketName,
+      date,
+      productImage,
+      pricePerUnit,
+      vendorEmail,
+    };
+
+    try {
+      const res = await axiosSecure.post("/watchList", watchItem);
+      if (res.data.insertedId) {
+        navigate("/dashboard/watchList");
+        toast.success("✅ Added to WatchList!");
+      } else {
+        toast.error("❌ Already exists or failed to add.");
+      }
+    } catch (err) {
+      toast.error("❌ Failed to add to WatchList.", err);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -211,7 +242,12 @@ const ViewDetails = () => {
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Add to Cart
                 </Button>
-                <Button variant="outline" size="lg">
+                {/* watchList button  */}
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={handleAddToWatchList}
+                >
                   <Heart className="w-5 h-5" />
                 </Button>
               </div>

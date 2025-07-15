@@ -49,7 +49,7 @@ const BuyNowForm = ({ amount, closeModal, selectedProduct }) => {
           userEmail: user?.email,
           marketName: selectedProduct?.marketName,
           productId: selectedProduct?._id,
-          productName: selectedProduct?.name,
+          productName: selectedProduct?.itemName,
           amount,
           transactionId: result.paymentIntent.id,
           status: "paid",

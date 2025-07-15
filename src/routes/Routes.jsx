@@ -23,6 +23,7 @@ import HelpCenter from "../pages/helpCenter/HelpCenter";
 import ManageWatchList from "../pages/dashboard/user/ManageWatchlist";
 import Payment from "../pages/payment/Payment";
 import MyOrderList from "../pages/dashboard/user/MyOrderList";
+import AllOrders from "../pages/dashboard/admin/AllOrders";
 
 export const router = createBrowserRouter([
   {
@@ -139,6 +140,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/allAdvertisement",
         Component: AllAdvertisement,
+      },
+      {
+        path: "/dashboard/allOrders",
+        Component: AllOrders,
       },
     ],
   },

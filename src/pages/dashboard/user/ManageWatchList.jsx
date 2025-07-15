@@ -2,25 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+// import { DialogContent } from "@/components/ui/dialog";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const ManageWatchList = () => {
   const axiosSecure = useAxiosSecure();
   const [watchList, setWatchList] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchWatchList = async () => {
+      if (!user?.email) return; // user না থাকলে কিছুই করো না
       try {
-        const res = await axiosSecure.get("/watchList");
+        const res = await axiosSecure.get(`/watchList?email=${user?.email}`);
         setWatchList(res.data);
       } catch (err) {
-        toast.error("❌ Failed to load watchList", err);
+        toast.error(" Failed to load watchList", err);
       }
     };
     fetchWatchList();
-  }, [axiosSecure]);
+  }, [axiosSecure, user]);
 
   const handleRemove = async (id) => {
     try {
@@ -81,28 +92,33 @@ const ManageWatchList = () => {
                         ❌ Remove
                       </Button>
                     </DialogTrigger>
+
                     <DialogContent className="text-center">
-                      <p className="text-lg font-semibold mb-4">
-                        Are you sure you want to remove <br />
-                        <span className="text-red-600">
-                          {selectedItem?.itemName}
-                        </span>{" "}
-                        from your watchlist?
-                      </p>
-                      <div className="flex justify-center gap-4">
-                        <Button
-                          variant="outline"
-                          onClick={() => setSelectedItem(null)}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          onClick={() => handleRemove(selectedItem._id)}
-                        >
-                          Confirm Remove
-                        </Button>
-                      </div>
+                      {selectedItem && (
+                        <>
+                          <p className="text-lg font-semibold mb-4">
+                            Are you sure you want to remove <br />
+                            <span className="text-red-600">
+                              {selectedItem.itemName}
+                            </span>{" "}
+                            from your watchlist?
+                          </p>
+                          <div className="flex justify-center gap-4">
+                            <Button
+                              variant="outline"
+                              onClick={() => setSelectedItem(null)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              onClick={() => handleRemove(selectedItem._id)}
+                            >
+                              Confirm Remove
+                            </Button>
+                          </div>
+                        </>
+                      )}
                     </DialogContent>
                   </Dialog>
                 </td>
