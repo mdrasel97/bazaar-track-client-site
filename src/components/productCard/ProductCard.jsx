@@ -87,7 +87,10 @@ const ProductCard = ({ product, viewMode }) => {
           } bg-gray-100 rounded-lg mb-4 overflow-hidden`}
         >
           <img
-            src={productImage}
+            src={
+              productImage ||
+              "https://i.ibb.co/ZR3ZdT8M/Screenshot-2024-12-08-150251.png"
+            }
             alt={itemName}
             className="w-full h-full object-content group-hover:scale-105 transition-transform duration-300"
           />
