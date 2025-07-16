@@ -96,7 +96,7 @@ const DashboardLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen dark:bg-black  md:flex flex-col">
+    <div className="min-h-screen   md:flex flex-col">
       {/* Navbar */}
       <header className="sticky top-0 z-40 border-b shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
@@ -120,7 +120,7 @@ const DashboardLayout = () => {
                     className={`flex items-center px-4 py-2 rounded-md transition ${
                       location.pathname === item.path
                         ? "bg-blue-100 text-blue-600 font-medium"
-                        : "text-gray-700 hover:bg-gray-100"
+                        : ""
                     }`}
                   >
                     {item.icon}
@@ -190,7 +190,7 @@ const DashboardLayout = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t text-center text-sm text-gray-500 py-3">
+      <footer className=" border-t text-center text-sm py-3">
         © {new Date().getFullYear()} BazaarTrack. All rights reserved.
       </footer>
     </div>

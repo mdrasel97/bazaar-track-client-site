@@ -35,7 +35,8 @@ export const router = createBrowserRouter([
       {
         path: "/",
         Component: Home,
-        loader: () => fetch("http://localhost:5000/products/home"),
+        loader: () =>
+          fetch("https://bazaar-track-server.vercel.app/products/home"),
       },
       {
         path: "/products",
@@ -54,7 +55,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/products/${params.id}`),
+          fetch(`https://bazaar-track-server.vercel.app/products/${params.id}`),
       },
       {
         path: "/payment/:id",
@@ -72,7 +73,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         // loader: ({ params }) =>
-        //   fetch(`http://localhost:5000/products/approved/${params.id}`),
+        //   fetch(`https://bazaar-track-server.vercel.app/products/approved/${params.id}`),
       },
     ],
   },
@@ -102,7 +103,8 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/trends",
         Component: TrendViewer,
-        loader: () => fetch("http://localhost:5000/products"),
+        loader: () =>
+          fetch("https://bazaar-track-server.vercel.app/products/approved"),
       },
 
       {
@@ -126,7 +128,7 @@ export const router = createBrowserRouter([
         path: "/dashboard/updateProduct/:id",
         Component: UpdateProduct,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/products/${params.id}`),
+          fetch(`https://bazaar-track-server.vercel.app/products/${params.id}`),
       },
       {
         path: "/dashboard/AddAdvertisement",

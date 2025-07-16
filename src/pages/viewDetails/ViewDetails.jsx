@@ -12,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLoaderData } from "react-router";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import {
   Dialog,
@@ -27,6 +27,7 @@ import Payment from "../payment/Payment";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
+import ReviewForm from "./ReviewForm";
 
 const ViewDetails = () => {
   const product = useLoaderData();
@@ -37,7 +38,6 @@ const ViewDetails = () => {
     itemName,
     productImage,
     rating,
-    reviews,
     pricePerUnit,
     marketName,
     date,
@@ -51,6 +51,9 @@ const ViewDetails = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [reviews, setReviews] = useState([]);
+
+  console.log("reviews: ", reviews);
 
   const handleQuantityChange = (delta) => {
     setQuantity((prev) => {
@@ -85,11 +88,6 @@ const ViewDetails = () => {
     }
   };
 
-  // const handlePay = (id) => {
-  //   console.log("procid to pay", id);
-  //   navigate(`/payment/${id}`);
-  // };
-
   // watch list
   const handleAddToWatchList = async () => {
     const watchItem = {
@@ -114,6 +112,19 @@ const ViewDetails = () => {
       toast.error("❌ Failed to add to WatchList.", err);
     }
   };
+
+  const fetchReviews = useCallback(async () => {
+    try {
+      const res = await axiosSecure.get(`/reviews/${_id}`);
+      setReviews(res.data);
+    } catch (error) {
+      toast.error("❌ Failed to load reviews", error);
+    }
+  }, [_id, axiosSecure]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
 
   return (
     <div className="">
@@ -163,7 +174,7 @@ const ViewDetails = () => {
                   ))}
                 </div>
                 <span className="">
-                  {rating} ({reviews} reviews)
+                  {rating || "No rating"} ({reviews?.length || 0} reviews)
                 </span>
               </div>
 
@@ -205,7 +216,7 @@ const ViewDetails = () => {
                         setSelectedProduct(product);
                         setOpen(true);
                       }}
-                      className="bg-red-600 flex-1"
+                      className="bg-red-600 flex-1 text-white"
                     >
                       Buy Now
                     </Button>
@@ -253,7 +264,10 @@ const ViewDetails = () => {
           <Tabs defaultValue="specifications" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="specifications">Specifications</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews ({reviews})</TabsTrigger>
+              <TabsTrigger value="reviews">
+                Reviews ({reviews.length})
+              </TabsTrigger>
+
               <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
             </TabsList>
 
@@ -297,37 +311,57 @@ const ViewDetails = () => {
 
             <TabsContent value="reviews" className="mt-6">
               <div className="space-y-6">
-                {/* {reviews.map((review) => (
-                  <Card key={review.id}>
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <h4 className="font-medium text-gray-900">
-                            {review.name}
-                          </h4>
-                          <div className="flex items-center gap-2 mt-1">
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-4 h-4 ${
-                                    i < review.rating
-                                      ? "text-yellow-400 fill-current"
-                                      : "text-gray-300"
-                                  }`}
-                                />
-                              ))}
+                {/* Review Form */}
+                {user ? (
+                  <ReviewForm
+                    productId={_id}
+                    //  onReviewAdded={fetchReviews}
+                  />
+                ) : (
+                  <div className="text-sm italic">
+                    Please log in to share your review.
+                  </div>
+                )}
+
+                {/* Review List */}
+                <div>
+                  {reviews.length === 0 && (
+                    <p className="italic">No reviews yet.</p>
+                  )}
+
+                  {reviews.map((review) => {
+                    const rating = parseInt(
+                      review.rating?.$numberInt || review.rating || 0
+                    );
+                    return (
+                      <Card key={review._id}>
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-3">
+                            <div>
+                              <h4 className="font-medium">{review.name}</h4>
+                              <div className="flex items-center gap-2 mt-1">
+                                <div className="flex items-center">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      className={`w-4 h-4 ${
+                                        i < rating
+                                          ? "text-yellow-400 fill-current"
+                                          : " "
+                                      }`}
+                                    />
+                                  ))}
+                                </div>
+                                <span className="text-sm">{review.date}</span>
+                              </div>
                             </div>
-                            <span className="text-sm text-gray-500">
-                              {review.date}
-                            </span>
                           </div>
-                        </div>
-                      </div>
-                      <p className="text-gray-600">{review.comment}</p>
-                    </CardContent>
-                  </Card>
-                ))} */}
+                          <p className="">{review.comment}</p>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
               </div>
             </TabsContent>
 

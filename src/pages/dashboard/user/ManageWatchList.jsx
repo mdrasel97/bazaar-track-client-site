@@ -48,11 +48,7 @@ const ManageWatchList = () => {
   };
 
   if (!watchList.length) {
-    return (
-      <div className="text-center text-gray-500 py-10">
-        No items in watchList
-      </div>
-    );
+    return <div className="text-center py-10">No items in watchList</div>;
   }
 
   return (
@@ -60,8 +56,8 @@ const ManageWatchList = () => {
       <h2 className="text-2xl font-bold mb-6">🔖 Manage WatchList</h2>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border rounded shadow-sm">
-          <thead className="bg-gray-100 text-left">
+        <table className="min-w-full  border rounded shadow-sm">
+          <thead className="text-left">
             <tr>
               <th className="py-3 px-4 border-b">Product</th>
               <th className="py-3 px-4 border-b">Market</th>
@@ -71,7 +67,7 @@ const ManageWatchList = () => {
           </thead>
           <tbody>
             {watchList.map((item) => (
-              <tr key={item._id} className="border-b hover:bg-gray-50">
+              <tr key={item._id} className="border-b">
                 <td className="py-3 px-4">{item.itemName}</td>
                 <td className="py-3 px-4">{item.marketName}</td>
                 <td className="py-3 px-4">{item.date}</td>
@@ -87,9 +83,10 @@ const ManageWatchList = () => {
                       <Button
                         size="sm"
                         variant="destructive"
+                        className="bg-red-500"
                         onClick={() => setSelectedItem(item)}
                       >
-                        ❌ Remove
+                        Remove
                       </Button>
                     </DialogTrigger>
 
@@ -112,6 +109,7 @@ const ManageWatchList = () => {
                             </Button>
                             <Button
                               variant="destructive"
+                              // className="bg-red-500"
                               onClick={() => handleRemove(selectedItem._id)}
                             >
                               Confirm Remove

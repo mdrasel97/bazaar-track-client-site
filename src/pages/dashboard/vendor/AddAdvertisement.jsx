@@ -42,7 +42,7 @@ const AddAdvertisement = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-6 rounded-md shadow">
+    <div className="max-w-2xl mx-auto p-6 rounded-md shadow">
       <h2 className="text-2xl font-bold mb-6 text-center">
         📢 Add Advertisement
       </h2>

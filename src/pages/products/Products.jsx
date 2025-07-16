@@ -41,7 +41,7 @@ const Products = () => {
       <h2 className="text-2xl font-bold mb-6">📦 All Products</h2>
 
       {/* Filters */}
-      <div className="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-md shadow mb-6">
+      <div className="flex flex-col md:flex-row justify-between gap-4 border border-blue-500 p-4 rounded-md shadow mb-6">
         {/* Date Picker */}
         <DatePicker
           selected={selectedDate}
@@ -83,7 +83,7 @@ const Products = () => {
           No products found.
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {products.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Swal from "sweetalert2";
+import Loading from "../../../components/loading/Loading";
 
 const MyAdvertisements = () => {
   const { user } = useAuth();
@@ -82,7 +83,7 @@ const MyAdvertisements = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (loading) return <Loading />;
 
   if (ads.length === 0)
     return <div className="text-center py-10">No advertisements found</div>;
@@ -93,7 +94,7 @@ const MyAdvertisements = () => {
 
       <div className="overflow-x-auto">
         <table className="w-full text-left border border-gray-200 rounded-md">
-          <thead className="bg-gray-100">
+          <thead className="">
             <tr>
               <th className="p-3">Ad Title</th>
               <th className="p-3">Short Description</th>

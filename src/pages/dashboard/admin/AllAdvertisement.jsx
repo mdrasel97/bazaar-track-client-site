@@ -63,7 +63,7 @@ const AllAdvertisement = () => {
 
       <div className="overflow-x-auto rounded-md border">
         <table className="min-w-full text-sm text-left">
-          <thead className="bg-gray-100">
+          <thead className="">
             <tr>
               <th className="p-3">Banner</th>
               <th className="p-3">Title</th>

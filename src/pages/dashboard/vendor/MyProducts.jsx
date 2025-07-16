@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../components/loading/Loading";
 
 const MyProducts = () => {
   const { user } = useAuth();
@@ -57,17 +58,17 @@ const MyProducts = () => {
     }
   };
 
-  if (loading) return <p className="text-center py-10">Loading products...</p>;
+  if (loading) return <Loading />;
 
   return (
     <div className="p-4 md:p-8">
       <h2 className="text-2xl font-bold mb-6">My Submitted Products</h2>
       {products.length === 0 ? (
-        <p className="text-gray-600">No products found.</p>
+        <p className="">No products found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border border-gray-200 text-sm md:text-base">
-            <thead className="bg-gray-100 text-left">
+          <table className="w-full border text-sm md:text-base">
+            <thead className=" text-left">
               <tr>
                 <th className="px-4 py-3">Item Name</th>
                 <th className="px-4 py-3">Price/Unit</th>

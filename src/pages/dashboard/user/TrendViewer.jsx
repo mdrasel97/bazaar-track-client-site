@@ -13,19 +13,26 @@ import { useState } from "react";
 
 const TrendViewer = () => {
   const products = useLoaderData();
+  // console.log(" products:", products, "type:", typeof products);
+
   const [selectedProduct, setSelectedProduct] = useState(products[0]);
 
-  const sortedPrices = [...selectedProduct.prices].sort(
+  const sortedPrices = [...(selectedProduct?.prices || [])].sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   );
 
   const calculateTrend = () => {
+    if (!sortedPrices || sortedPrices.length < 2) return null;
+
     const len = sortedPrices.length;
-    if (len < 2) return null;
-    const oldPrice = sortedPrices[len - 2].price;
-    const newPrice = sortedPrices[len - 1].price;
+    const oldPrice = Number(sortedPrices[len - 2].price);
+    const newPrice = Number(sortedPrices[len - 1].price);
+
+    if (isNaN(oldPrice) || isNaN(newPrice)) return null;
+
     const change = (((newPrice - oldPrice) / oldPrice) * 100).toFixed(1);
-    const isPositive = change >= 0;
+    const isPositive = Number(change) >= 0;
+
     return { change, isPositive };
   };
 
@@ -41,12 +48,12 @@ const TrendViewer = () => {
             <li
               key={p._id}
               className={`flex items-center gap-2 cursor-pointer px-2 py-1 rounded ${
-                selectedProduct._id === p._id ? "bg-gray-200 font-bold" : ""
+                selectedProduct._id === p._id ? "font-bold" : ""
               }`}
               onClick={() => setSelectedProduct(p)}
             >
               <img
-                src={p.productImage}
+                src={p.productImage || " "}
                 alt={p.itemName}
                 className="w-5 h-5 rounded-full object-cover"
               />
@@ -57,15 +64,13 @@ const TrendViewer = () => {
       </aside>
 
       {/* Chart and Info */}
-      <main className="flex-1 border p-4 rounded shadow bg-white">
+      <main className="flex-1 border p-4 rounded shadow">
         <h2 className="text-xl font-bold mb-2">📈 Price Trends</h2>
 
         <div className="mb-3">
           <p className="text-lg font-semibold">🥕 {selectedProduct.itemName}</p>
-          <p className="text-sm text-gray-600">{selectedProduct.marketName}</p>
-          <p className="text-sm text-gray-600">
-            Vendor: {selectedProduct.vendorName}
-          </p>
+          <p className="text-sm ">{selectedProduct.marketName}</p>
+          <p className="text-sm ">Vendor: {selectedProduct.vendorName}</p>
         </div>
 
         <div className="h-[300px] w-full">

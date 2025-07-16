@@ -18,12 +18,11 @@ const AllProduct = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("📦 Page changed to:", page); // add this
     setLoading(true);
     axiosSecure
-      .get(`/products?page=${page}&limit=${limit}`)
+      .get(`/products/pagination?page=${page}&limit=${limit}`)
       .then((res) => {
-        console.log("✅ Product list:", res.data.products); // add this
+        // console.log("✅ Product list:", res.data.products);
         setProducts(res.data.products);
         setTotalPages(res.data.totalPages);
         setLoading(false);
@@ -70,7 +69,7 @@ const AllProduct = () => {
     }
   };
 
-  // ❌ Reject product
+  //  Reject product
   const handleReject = async (id) => {
     const { value: feedback } = await Swal.fire({
       title: "Reject Product",
@@ -102,12 +101,12 @@ const AllProduct = () => {
     }
   };
 
-  // ✏️ Update product
+  //  Update product
   const handleUpdate = (id) => {
     navigate(`/dashboard/updateProduct/${id}`);
   };
 
-  // 🗑️ Delete product
+  //  Delete product
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
@@ -223,7 +222,7 @@ const AllProduct = () => {
         <button
           onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={page === totalPages}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          className="px-4 py-2 rounded disabled:opacity-50"
         >
           Next ➡️
         </button>

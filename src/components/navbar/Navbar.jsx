@@ -138,10 +138,21 @@ const Navbar = () => {
                 <ShoppingCart className="w-4 h-4" />
                 <span>Cart ({totalItems})</span>
               </Link>
-              <Link to="/login" className="flex items-center space-x-2 py-2">
+              {/* <Link to="/login" className="flex items-center space-x-2 py-2">
                 <User className="w-4 h-4" />
                 <span>Login</span>
-              </Link>
+              </Link> */}
+              {user ? (
+                // Show profile dropdown if logged in
+                <ProfileDropdown />
+              ) : (
+                <Link to="/login">
+                  <Button variant="outline" size="sm">
+                    <User className="w-4 h-4 mr-2" />
+                    Login
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         )}
