@@ -20,15 +20,12 @@ const AdvertisementHighlights = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">
+    <div className="max-w-6xl mx-auto px-4 mt-16">
+      <h2 className="text-4xl font-bold mb-6 text-center">
         Advertisement Highlights
       </h2>
-
       {ads.length === 0 ? (
-        <p className="text-center text-gray-500">
-          No active advertisements available.
-        </p>
+        <p className="text-center">No active advertisements available.</p>
       ) : (
         <Swiper
           spaceBetween={30}
@@ -40,16 +37,16 @@ const AdvertisementHighlights = () => {
         >
           {ads.map((ad) => (
             <SwiperSlide key={ad._id}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-white rounded-xl shadow p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center rounded-xl shadow p-6">
                 <img
                   src={ad.image}
                   alt={ad.title}
-                  className="w-full rounded-xl object-cover"
+                  className="w-full h[250px] rounded-xl object-cover"
                 />
                 <div className="space-y-2">
                   <h3 className="text-2xl font-semibold">{ad.title}</h3>
-                  <p className="text-gray-700">{ad.description}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="">{ad.description}</p>
+                  <p className="text-sm ">
                     By <span className="font-medium">{ad.vendorName}</span> (
                     {ad.vendorEmail})
                   </p>

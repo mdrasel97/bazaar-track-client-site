@@ -65,8 +65,8 @@ const AllUsers = () => {
 
       {searchedUser && (
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border rounded shadow-sm">
-            <thead className="bg-gray-100 text-left">
+          <table className="min-w-full border rounded shadow-sm">
+            <thead className=" text-left">
               <tr>
                 <th className="py-3 px-4 border-b">Name</th>
                 <th className="py-3 px-4 border-b">Email</th>
@@ -77,7 +77,7 @@ const AllUsers = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b hover:bg-gray-50">
+              <tr className="border-b">
                 <td className="py-3 px-4">{searchedUser.name || "N/A"}</td>
                 <td className="py-3 px-4">{searchedUser.email}</td>
                 <td className="py-3 px-4 capitalize">{searchedUser.role}</td>
@@ -100,10 +100,7 @@ const AllUsers = () => {
                       Make Admin
                     </Button>
                   ) : (
-                    <button
-                      className="bg-gray-300 text-gray-700 px-3 py-1 rounded"
-                      disabled
-                    >
+                    <button className=" py-1 rounded" disabled>
                       Admin
                     </button>
                   )}

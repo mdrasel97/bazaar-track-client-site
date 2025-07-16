@@ -12,8 +12,8 @@ const Home = () => {
   return (
     <div>
       <Banner />
-      <div>
-        <h2 className="text-2xl font-bold text-center my-5">
+      <div className="mt-10 md:mt-16">
+        <h2 className="text-4xl font-bold text-center my-6">
           Featured Products
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-5 w-11/12 mx-auto">

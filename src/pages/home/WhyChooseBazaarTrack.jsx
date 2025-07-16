@@ -22,7 +22,7 @@ const WhyChooseBazaarTrack = () => {
   ];
 
   return (
-    <section className="py-16">
+    <section className="mt-16">
       <div className="container mx-auto px-4 text-center">
         {/* Main Heading */}
         <h2 className="text-4xl font-bold mb-4">Why Choose Bazaar Track?</h2>
