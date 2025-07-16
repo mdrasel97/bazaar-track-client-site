@@ -25,6 +25,7 @@ import Payment from "../pages/payment/Payment";
 import MyOrderList from "../pages/dashboard/user/MyOrderList";
 import AllOrders from "../pages/dashboard/admin/AllOrders";
 import PriceTrendChart from "../pages/dashboard/user/PriceTrendChart";
+import TrendViewer from "../pages/dashboard/user/TrendViewer";
 
 export const router = createBrowserRouter([
   {
@@ -99,11 +100,11 @@ export const router = createBrowserRouter([
     children: [
       // user
       {
-        path: "/dashboard/trends/:id",
-        Component: PriceTrendChart,
-        loader: ({ params }) =>
-          fetch(`http://localhost:5000/products/${params.id}`),
+        path: "/dashboard/trends",
+        Component: TrendViewer,
+        loader: () => fetch("http://localhost:5000/products"),
       },
+
       {
         path: "/dashboard/myOrders",
         Component: MyOrderList,

@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ProfileDropdown from "../../pages/profileDropdown/ProfileDropdown";
 import useAuth from "../../hooks/useAuth";
+import Logo from "../../components/logo/Logo";
 
 const DashboardLayout = () => {
   const location = useLocation();
@@ -95,7 +96,7 @@ const DashboardLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen dark:bg-black  flex flex-col">
+    <div className="min-h-screen dark:bg-black  md:flex flex-col">
       {/* Navbar */}
       <header className="sticky top-0 z-40 border-b shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
@@ -108,7 +109,7 @@ const DashboardLayout = () => {
             </SheetTrigger>
             <SheetContent side="left" className="w-64">
               <div className="p-4 font-bold text-xl text-blue-600">
-                BazaarTrack
+                Dashboard
               </div>
               <nav className="space-y-2">
                 {navItems.map((item) => (
@@ -130,8 +131,9 @@ const DashboardLayout = () => {
             </SheetContent>
           </Sheet>
 
-          <div className="text-xl font-bold text-blue-600 hidden md:block">
-            BazaarTrack Dashboard
+          <div className="text-xl font-bold text-blue-600">
+            {/* BazaarTrack Dashboard */}
+            <Logo />
           </div>
 
           {/* Profile Dropdown */}
@@ -162,7 +164,7 @@ const DashboardLayout = () => {
       <div className="flex flex-1">
         {/* Sidebar (Desktop) */}
         <aside className="hidden md:block w-64 border-r shadow-sm">
-          <div className="p-6 font-bold text-xl text-blue-600">BazaarTrack</div>
+          <div className="p-6 font-bold text-xl text-blue-600">Dashboard </div>
           <nav className="px-4 space-y-2">
             {navItems.map((item) => (
               <Link
