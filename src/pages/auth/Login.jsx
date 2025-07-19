@@ -40,7 +40,7 @@ const Login = () => {
         {/* Back Link */}
         <Link
           to="/"
-          className="inline-flex absolute items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+          className="inline-flex absolute items-center gap-2 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
@@ -53,12 +53,8 @@ const Login = () => {
                 <span className="text-white font-bold text-xl">BT</span>
               </div>
             </Link>
-            <CardTitle className="text-2xl font-bold text-gray-900">
-              Welcome Back
-            </CardTitle>
-            <p className="text-gray-600">
-              Sign in to your Bazaar Track account
-            </p>
+            <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
+            <p className="">Sign in to your Bazaar Track account</p>
           </CardHeader>
 
           <CardContent className="space-y-6">
@@ -94,9 +90,9 @@ const Login = () => {
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-gray-500" />
+                      <EyeOff className="h-4 w-4 " />
                     ) : (
-                      <Eye className="h-4 w-4 text-gray-500" />
+                      <Eye className="h-4 w-4 " />
                     )}
                   </Button>
                 </div>
@@ -108,9 +104,9 @@ const Login = () => {
                   <input
                     id="remember"
                     type="checkbox"
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded  text-purple-600 focus:ring-purple-500"
                   />
-                  <Label htmlFor="remember" className="text-sm text-gray-600">
+                  <Label htmlFor="remember" className="text-sm">
                     Remember me
                   </Label>
                 </div>
@@ -125,7 +121,7 @@ const Login = () => {
               {/* Submit */}
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
                 size="lg"
               >
                 Sign In
@@ -136,9 +132,7 @@ const Login = () => {
             <div className="relative">
               <Separator />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="bg-white px-2 text-sm text-gray-500">
-                  Or continue with
-                </span>
+                <span className=" px-2 text-sm">Or continue with</span>
               </div>
             </div>
 
@@ -150,7 +144,7 @@ const Login = () => {
 
             {/* Signup */}
             <div className="text-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm ">
                 Don&apos;t have an account?{" "}
                 <Link
                   to="/register"

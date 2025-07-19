@@ -28,22 +28,86 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ProfileDropdown from "../../pages/profileDropdown/ProfileDropdown";
 import useAuth from "../../hooks/useAuth";
 import Logo from "../../components/logo/Logo";
+import useUserRole from "../../hooks/useUserRole";
 
 const DashboardLayout = () => {
   const location = useLocation();
   const { user } = useAuth();
+  const { role } = useUserRole();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const navItems = [
+  // const navItems = [
+  //   {
+  //     label: "View Price Trends",
+  //     path: "/dashboard/trends",
+  //     icon: <BarChart2 className="w-5 h-5 mr-2" />,
+  //   },
+  //   {
+  //     label: "Manage WatchList",
+  //     path: "/dashboard/watchList",
+  //     icon: <Heart className="w-5 h-5 mr-2" />,
+  //   },
+  //   {
+  //     label: "My Orders",
+  //     path: "/dashboard/myOrders",
+  //     icon: <Package className="w-5 h-5 mr-2" />,
+  //   },
+  //   // vendor
+  //   {
+  //     label: "Add Product",
+  //     path: "/dashboard/addProducts",
+  //     icon: <PlusSquare className="w-5 h-5 mr-2" />,
+  //   },
+  //   {
+  //     label: "My Products",
+  //     path: "/dashboard/myProducts",
+  //     icon: <Boxes className="w-5 h-5 mr-2" />,
+  //   },
+  //   {
+  //     label: "Add Advertisement",
+  //     path: "/dashboard/addAdvertisement",
+  //     icon: <Megaphone className="w-5 h-5 mr-2" />,
+  //   },
+  //   {
+  //     label: "My Advertisements",
+  //     path: "/dashboard/myAdvertisements",
+  //     icon: <BadgeDollarSign className="w-5 h-5 mr-2" />,
+  //   },
+  //   // admin
+  //   {
+  //     label: "All Users",
+  //     path: "/dashboard/allUsers",
+  //     icon: <Users className="w-5 h-5 mr-2" />,
+  //   },
+  //   {
+  //     label: "All Products",
+  //     path: "/dashboard/allProducts",
+  //     icon: <Layers className="w-5 h-5 mr-2" />,
+  //   },
+  //   {
+  //     label: "All Advertisements",
+  //     path: "/dashboard/allAdvertisement",
+  //     icon: <MonitorSpeaker className="w-5 h-5 mr-2" />,
+  //   },
+  //   {
+  //     label: "All Orders",
+  //     path: "/dashboard/allOrders",
+  //     icon: <ListOrdered className="w-5 h-5 mr-2" />,
+  //   },
+  // ];
+
+  let navItems = [];
+
+  const userNavItems = [
     {
       label: "View Price Trends",
       path: "/dashboard/trends",
       icon: <BarChart2 className="w-5 h-5 mr-2" />,
     },
     {
-      label: "Manage WatchList",
-      path: "/dashboard/watchList",
+      label: "Manage Watchlist",
+      path: "/dashboard/watchlist",
       icon: <Heart className="w-5 h-5 mr-2" />,
     },
     {
@@ -51,7 +115,9 @@ const DashboardLayout = () => {
       path: "/dashboard/myOrders",
       icon: <Package className="w-5 h-5 mr-2" />,
     },
-    // vendor
+  ];
+
+  const vendorNavItems = [
     {
       label: "Add Product",
       path: "/dashboard/addProducts",
@@ -64,15 +130,17 @@ const DashboardLayout = () => {
     },
     {
       label: "Add Advertisement",
-      path: "/dashboard/addAdvertisement",
+      path: "/dashboard/AddAdvertisement",
       icon: <Megaphone className="w-5 h-5 mr-2" />,
     },
     {
       label: "My Advertisements",
-      path: "/dashboard/myAdvertisements",
+      path: "/dashboard/myAdvertisement",
       icon: <BadgeDollarSign className="w-5 h-5 mr-2" />,
     },
-    // admin
+  ];
+
+  const adminNavItems = [
     {
       label: "All Users",
       path: "/dashboard/allUsers",
@@ -95,6 +163,13 @@ const DashboardLayout = () => {
     },
   ];
 
+  if (role === "user") {
+    navItems = userNavItems;
+  } else if (role === "vendor") {
+    navItems = vendorNavItems;
+  } else if (role === "admin") {
+    navItems = adminNavItems;
+  }
   return (
     <div className="min-h-screen   md:flex flex-col">
       {/* Navbar */}
@@ -184,7 +259,7 @@ const DashboardLayout = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 md:p-6 bg-gray-50 dark:bg-black">
+        <main className="flex-1 p-4 md:p-6 bg-gray-50 dark:bg-black min-h-screen">
           <Outlet />
         </main>
       </div>

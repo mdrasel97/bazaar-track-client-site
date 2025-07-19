@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
-// import errorAnimation from "@/assets/lottie/error-404.json"; // Make sure this path is correct
 
 const Error = () => {
   return (

@@ -26,6 +26,9 @@ import MyOrderList from "../pages/dashboard/user/MyOrderList";
 import AllOrders from "../pages/dashboard/admin/AllOrders";
 import PriceTrendChart from "../pages/dashboard/user/PriceTrendChart";
 import TrendViewer from "../pages/dashboard/user/TrendViewer";
+import Forbidden from "../components/forbidden/Forbidden";
+import RoleProtectedRoute from "../pages/dashboard/protectedRoute/RoleProtectedRoute";
+import Profile from "../pages/profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +40,7 @@ export const router = createBrowserRouter([
         Component: Home,
         loader: () =>
           fetch("https://bazaar-track-server.vercel.app/products/home"),
+        HydrateFallback: Error,
       },
       {
         path: "/products",
@@ -48,6 +52,10 @@ export const router = createBrowserRouter([
         Component: HelpCenter,
       },
       {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
         path: "/products/:id",
         element: (
           <PrivateRoute>
@@ -56,6 +64,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`https://bazaar-track-server.vercel.app/products/${params.id}`),
+        HydrateFallback: Error,
       },
       {
         path: "/payment/:id",
@@ -95,70 +104,94 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <PrivateRoute>
-        <DashboardLayout></DashboardLayout>
+        <DashboardLayout />
       </PrivateRoute>
     ),
     children: [
-      // user
+      // USER ROUTES
       {
-        path: "/dashboard/trends",
-        Component: TrendViewer,
-        loader: () =>
-          fetch("https://bazaar-track-server.vercel.app/products/approved"),
+        element: <RoleProtectedRoute allowedRoles={["user"]} />,
+        children: [
+          {
+            path: "/dashboard/trends",
+            Component: TrendViewer,
+            loader: () =>
+              fetch("https://bazaar-track-server.vercel.app/products/approved"),
+            HydrateFallback: Error,
+          },
+          {
+            path: "/dashboard/myOrders",
+            Component: MyOrderList,
+          },
+          {
+            path: "/dashboard/watchList",
+            Component: ManageWatchList,
+          },
+        ],
       },
 
+      // VENDOR ROUTES
       {
-        path: "/dashboard/myOrders",
-        Component: MyOrderList,
+        element: <RoleProtectedRoute allowedRoles={["vendor"]} />,
+        children: [
+          {
+            path: "/dashboard/addProducts",
+            Component: AddProduct,
+          },
+          {
+            path: "/dashboard/myProducts",
+            Component: MyProducts,
+          },
+          {
+            path: "/dashboard/updateProduct/:id",
+            Component: UpdateProduct,
+            loader: ({ params }) =>
+              fetch(
+                `https://bazaar-track-server.vercel.app/products/${params.id}`
+              ),
+            HydrateFallback: Error,
+          },
+          {
+            path: "/dashboard/AddAdvertisement",
+            Component: AddAdvertisement,
+          },
+          {
+            path: "/dashboard/myAdvertisements",
+            Component: MyAdvertisements,
+          },
+        ],
       },
+      // ADMIN ROUTES
       {
-        path: "/dashboard/watchList",
-        Component: ManageWatchList,
-      },
-      // vendor route
-      {
-        path: "/dashboard/addProducts",
-        Component: AddProduct,
-      },
-      {
-        path: "/dashboard/myProducts",
-        Component: MyProducts,
-      },
-      {
-        path: "/dashboard/updateProduct/:id",
-        Component: UpdateProduct,
-        loader: ({ params }) =>
-          fetch(`https://bazaar-track-server.vercel.app/products/${params.id}`),
-      },
-      {
-        path: "/dashboard/AddAdvertisement",
-        Component: AddAdvertisement,
-      },
-      {
-        path: "/dashboard/myAdvertisements",
-        Component: MyAdvertisements,
-      },
-      // admin
-      {
-        path: "/dashboard/allUsers",
-        Component: AllUsers,
-      },
-      {
-        path: "/dashboard/allProducts",
-        Component: AllProduct,
-      },
-      {
-        path: "/dashboard/allAdvertisement",
-        Component: AllAdvertisement,
-      },
-      {
-        path: "/dashboard/allOrders",
-        Component: AllOrders,
+        element: <RoleProtectedRoute allowedRoles={["admin"]} />,
+        children: [
+          {
+            path: "/dashboard/allUsers",
+            Component: AllUsers,
+          },
+          {
+            path: "/dashboard/allProducts",
+            Component: AllProduct,
+          },
+          {
+            path: "/dashboard/allAdvertisement",
+            Component: AllAdvertisement,
+          },
+          {
+            path: "/dashboard/allOrders",
+            Component: AllOrders,
+          },
+        ],
       },
     ],
   },
+
   {
     path: "*",
     Component: Error,
+  },
+  {
+    path: "/forbidden",
+    element: <Forbidden />,
   },
 ]);

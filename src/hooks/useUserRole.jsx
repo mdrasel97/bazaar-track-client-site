@@ -1,143 +1,39 @@
-// hooks/useUserRole.js
 import { useEffect, useState } from "react";
-import useAuth from "./useAuth";
+import useAuth from "./useAuth"; // your existing auth context
 import useAxiosSecure from "./useAxiosSecure";
+import Loading from "../components/loading/Loading";
 
 const useUserRole = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
-
-  const [role, setRole] = useState("user");
-  const [roleLoading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchUserRole =
-    (async () => {
-      if (!user?.email) return;
-
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await axiosSecure.get(`/users/${user.email}/role`);
-        setRole(res.data.role || "user");
-      } catch (err) {
-        setError("Failed to fetch user role", err);
-        setRole("user");
-      } finally {
-        setLoading(false);
-      }
-    },
-    [user?.email, axiosSecure]);
+  const [role, setRole] = useState("guest");
+  const [roleLoading, setRoleLoading] = useState(true);
 
   useEffect(() => {
-    if (!loading && user?.email) {
-      fetchUserRole();
+    if (!user?.email || loading) {
+      return <Loading />;
     }
-  }, [loading, user?.email, fetchUserRole]);
 
-  if (!user || role !== "admin") {
-    return (
-      <Navigate state={{ from: location.pathname }} to="/forbidden"></Navigate>
-    );
-  }
+    const fetchUserRole = async () => {
+      try {
+        const res = await axiosSecure.get(`/users/role?email=${user.email}`);
+        setRole(res.data.role || "guest");
+      } catch (err) {
+        console.error("Failed to fetch user role:", err);
+        setRole("guest");
+      } finally {
+        setRoleLoading(false);
+      }
+    };
 
-  return { role, roleLoading, error, refetch: fetchUserRole };
+    fetchUserRole();
+  }, [user?.email, loading, axiosSecure]);
+
+  const isUser = role === "user";
+  const isVendor = role === "vendor";
+  const isAdmin = role === "admin";
+
+  return { role, isUser, isVendor, isAdmin, roleLoading };
 };
 
 export default useUserRole;
-
-// // hooks/useUserRole.js
-
-// import useAuth from "./useAuth";
-
-// const useUserRole = () => {
-//   const { user } = useAuth();
-
-//   // fallback role
-//   const role = user?.role || "guest";
-
-//   // role booleans for easy checking
-//   const isUser = role === "user";
-//   const isVendor = role === "vendor";
-//   const isAdmin = role === "admin";
-
-//   return { role, isUser, isVendor, isAdmin };
-// };
-
-// export default useUserRole;
-
-// const { role } = useUserRole();
-
-// let navItems = [];
-
-// const userNavItems = [
-//   {
-//     label: "View Price Trends",
-//     path: "/dashboard/trends",
-//     icon: <BarChart2 className="w-5 h-5 mr-2" />,
-//   },
-//   {
-//     label: "Manage Watchlist",
-//     path: "/dashboard/watchlist",
-//     icon: <Heart className="w-5 h-5 mr-2" />,
-//   },
-//   {
-//     label: "My Orders",
-//     path: "/dashboard/orders",
-//     icon: <Package className="w-5 h-5 mr-2" />,
-//   },
-// ];
-
-// const vendorNavItems = [
-//   {
-//     label: "Add Product",
-//     path: "/dashboard/addProducts",
-//     icon: <PlusSquare className="w-5 h-5 mr-2" />,
-//   },
-//   {
-//     label: "My Products",
-//     path: "/dashboard/myProducts",
-//     icon: <Boxes className="w-5 h-5 mr-2" />,
-//   },
-//   {
-//     label: "Add Advertisement",
-//     path: "/dashboard/AddAdvertisement",
-//     icon: <Megaphone className="w-5 h-5 mr-2" />,
-//   },
-//   {
-//     label: "My Advertisements",
-//     path: "/dashboard/myAdvertisement",
-//     icon: <BadgeDollarSign className="w-5 h-5 mr-2" />,
-//   },
-// ];
-
-// const adminNavItems = [
-//   {
-//     label: "All Users",
-//     path: "/dashboard/allUsers",
-//     icon: <Users className="w-5 h-5 mr-2" />,
-//   },
-//   {
-//     label: "All Products",
-//     path: "/dashboard/allProducts",
-//     icon: <Layers className="w-5 h-5 mr-2" />,
-//   },
-//   {
-//     label: "All Advertisements",
-//     path: "/dashboard/allAdvertisement",
-//     icon: <MonitorSpeaker className="w-5 h-5 mr-2" />,
-//   },
-//   {
-//     label: "All Orders",
-//     path: "/dashboard/allOrders",
-//     icon: <ListOrdered className="w-5 h-5 mr-2" />,
-//   },
-// ];
-
-// if (role === "user") {
-//   navItems = userNavItems;
-// } else if (role === "vendor") {
-//   navItems = vendorNavItems;
-// } else if (role === "admin") {
-//   navItems = adminNavItems;
-// }

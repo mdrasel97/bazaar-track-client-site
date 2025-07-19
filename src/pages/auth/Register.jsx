@@ -86,7 +86,7 @@ const Register = () => {
       <div className="w-full max-w-md relative mt-5">
         <Link
           to="/"
-          className="inline-flex absolute items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+          className="inline-flex absolute items-center gap-2 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
@@ -97,10 +97,8 @@ const Register = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-white font-bold text-xl">BT</span>
             </div>
-            <CardTitle className="text-2xl font-bold text-gray-900">
-              Create Account
-            </CardTitle>
-            <p className="text-gray-600">Join Bazaar Track today</p>
+            <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
+            <p className="">Join Bazaar Track today</p>
           </CardHeader>
 
           <CardContent className="space-y-6">
@@ -179,7 +177,7 @@ const Register = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
                 size="lg"
               >
                 Register
@@ -187,7 +185,7 @@ const Register = () => {
             </form>
 
             <div className="text-center pt-4">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm">
                 Already have an account?{" "}
                 <Link
                   to="/login"
