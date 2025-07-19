@@ -29,11 +29,13 @@ import ProfileDropdown from "../../pages/profileDropdown/ProfileDropdown";
 import useAuth from "../../hooks/useAuth";
 import Logo from "../../components/logo/Logo";
 import useUserRole from "../../hooks/useUserRole";
+import Loading from "../../components/loading/Loading";
+import { toast } from "react-toastify";
 
 const DashboardLayout = () => {
   const location = useLocation();
-  const { user } = useAuth();
-  const { role } = useUserRole();
+  const { user, logOut } = useAuth();
+  const { role, roleLoading } = useUserRole();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -135,7 +137,7 @@ const DashboardLayout = () => {
     },
     {
       label: "My Advertisements",
-      path: "/dashboard/myAdvertisement",
+      path: "/dashboard/myAdvertisements",
       icon: <BadgeDollarSign className="w-5 h-5 mr-2" />,
     },
   ];
@@ -163,6 +165,10 @@ const DashboardLayout = () => {
     },
   ];
 
+  if (roleLoading) {
+    return <Loading />;
+  }
+
   if (role === "user") {
     navItems = userNavItems;
   } else if (role === "vendor") {
@@ -170,6 +176,16 @@ const DashboardLayout = () => {
   } else if (role === "admin") {
     navItems = adminNavItems;
   }
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        toast.success("sign Out successful");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
   return (
     <div className="min-h-screen   md:flex flex-col">
       {/* Navbar */}
@@ -217,7 +233,7 @@ const DashboardLayout = () => {
               <Avatar className="cursor-pointer">
                 <AvatarImage src={user?.photoURL} alt="User" />
                 <AvatarFallback>
-                  <User className="w-4 h-4" />
+                  <User className="w-6 h-6" />
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
@@ -228,9 +244,7 @@ const DashboardLayout = () => {
               <DropdownMenuItem asChild>
                 <Link to="/">Home</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => alert("Logging out...")}>
-                Logout
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogOut}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

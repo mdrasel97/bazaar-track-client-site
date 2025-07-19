@@ -7,26 +7,56 @@ import { Input } from "@/components/ui/input";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
-  const [searchEmail, setSearchEmail] = useState("");
+  // const [searchEmail, setSearchEmail] = useState("");
+  // const [searchName, setSearchName] = useState("");
   const [searchedUser, setSearchedUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // const handleSearch = async () => {
+  //   if (!searchEmail) return;
+  //   setLoading(true);
+  //   try {
+  //     const res = await axiosSecure.get(`/users/search?email=${searchEmail}`);
+
+  //     // setSearchedUser(res.data);
+  //     if (res.data.length > 0) {
+  //       setSearchedUser(res.data[0]); // just pick first match
+  //       console.log("✅ Found User:", res.data[0]);
+  //     } else {
+  //       setSearchedUser(null);
+  //       toast.info("User not found.");
+  //     }
+  //   } catch (err) {
+  //     toast.error("Failed to search user.", err);
+  //     setSearchedUser(null);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleSearch = async () => {
-    if (!searchEmail) return;
+    if (!searchTerm) {
+      toast.info("Please enter email or name to search.");
+      return;
+    }
+
     setLoading(true);
     try {
-      const res = await axiosSecure.get(`/users/search?email=${searchEmail}`);
+      const res = await axiosSecure.get(
+        `/users/search?email=${searchTerm}&name=${searchTerm}`
+      );
 
-      // setSearchedUser(res.data);
       if (res.data.length > 0) {
-        setSearchedUser(res.data[0]); // just pick first match
+        setSearchedUser(res.data[0]); // or set all results
         console.log("✅ Found User:", res.data[0]);
       } else {
         setSearchedUser(null);
         toast.info("User not found.");
       }
     } catch (err) {
-      toast.error("Failed to search user.", err);
+      toast.error("Failed to search user.");
+      console.error(err);
       setSearchedUser(null);
     } finally {
       setLoading(false);
@@ -51,7 +81,7 @@ const AllUsers = () => {
     <div className="max-w-4xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-6">👥 Search User by Email</h2>
 
-      <div className="flex gap-2 mb-6">
+      {/* <div className="flex gap-2 mb-6">
         <Input
           type="text"
           placeholder="Enter email to search..."
@@ -61,8 +91,24 @@ const AllUsers = () => {
         <Button onClick={handleSearch} disabled={loading || !searchEmail}>
           {loading ? <Loader2 className="animate-spin w-4 h-4" /> : "Search"}
         </Button>
-      </div>
+      </div> */}
 
+      <div className="flex md:flex-row gap-4">
+        <input
+          type="text"
+          placeholder="Search by email or name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border px-2 py-1 rounded w-full"
+        />
+        <Button
+          onClick={handleSearch}
+          // disabled={loading || !searchTerm}
+          className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+        >
+          {loading ? <Loader2 className="animate-spin w-4 h-4" /> : "Search"}
+        </Button>
+      </div>
       {searchedUser && (
         <div className="overflow-x-auto">
           <table className="min-w-full border rounded shadow-sm">

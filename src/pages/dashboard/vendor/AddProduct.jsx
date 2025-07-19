@@ -227,7 +227,7 @@ const AddProduct = () => {
         </div>
 
         <div>
-          <Label className="mb-2">📋 Item Description (Optional)</Label>
+          <Label className="mb-2">📋 Item Description</Label>
           <Textarea
             placeholder="Fresh, Organic, etc."
             {...register("itemDescription")}

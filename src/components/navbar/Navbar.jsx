@@ -43,15 +43,6 @@ const Navbar = () => {
     <header className=" shadow-sm border-b sticky bg-accent top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
-          {/* Logo */}
-          {/* <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">BT</span>
-            </div>
-            <span className="text-xl font-bold text-gray-900 hidden sm:block">
-              Bazaar Track
-            </span>
-          </Link> */}
           <Logo />
 
           {/* Search Bar (Desktop only) */}
