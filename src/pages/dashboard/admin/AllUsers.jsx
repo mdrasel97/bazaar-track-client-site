@@ -9,7 +9,9 @@ const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
   // const [searchEmail, setSearchEmail] = useState("");
   // const [searchName, setSearchName] = useState("");
-  const [searchedUser, setSearchedUser] = useState(null);
+  // const [searchedUser, setSearchedUser] = useState(null);
+  const [searchedUsers, setSearchedUsers] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -48,16 +50,16 @@ const AllUsers = () => {
       );
 
       if (res.data.length > 0) {
-        setSearchedUser(res.data[0]); // or set all results
-        console.log("✅ Found User:", res.data[0]);
+        setSearchedUsers(res.data); // ✅ set all matching users
+        console.log("✅ Found Users:", res.data);
       } else {
-        setSearchedUser(null);
+        setSearchedUsers([]); // ✅ empty list
         toast.info("User not found.");
       }
     } catch (err) {
       toast.error("Failed to search user.");
       console.error(err);
-      setSearchedUser(null);
+      setSearchedUsers([]);
     } finally {
       setLoading(false);
     }
@@ -66,14 +68,23 @@ const AllUsers = () => {
   const handleRoleChange = async (userId, role) => {
     try {
       const res = await axiosSecure.patch(`/users/${userId}/role`, { role });
+
       if (res.data.modifiedCount > 0) {
-        toast.success(`✅ User promoted to ${role}`);
-        setSearchedUser({ ...searchedUser, role }); // update UI
+        toast.success(`✅ Role updated to ${role}`);
+        const updatedUser = {
+          ...searchedUsers.find((u) => u._id === userId),
+          role,
+        };
+
+        setSearchedUsers((prev) =>
+          prev.map((user) => (user._id === userId ? updatedUser : user))
+        );
       } else {
-        toast.error("❌ Failed to update role");
+        toast.error("❌ Update failed");
       }
     } catch (err) {
-      toast.error("❌ Something went wrong", err);
+      toast.error("❌ Something went wrong");
+      console.error(err);
     }
   };
 
@@ -109,7 +120,7 @@ const AllUsers = () => {
           {loading ? <Loader2 className="animate-spin w-4 h-4" /> : "Search"}
         </Button>
       </div>
-      {searchedUser && (
+      {searchedUsers && (
         <div className="overflow-x-auto">
           <table className="min-w-full border rounded shadow-sm">
             <thead className=" text-left">
@@ -123,47 +134,43 @@ const AllUsers = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b">
-                <td className="py-3 px-4">{searchedUser.name || "N/A"}</td>
-                <td className="py-3 px-4">{searchedUser.email}</td>
-                <td className="py-3 px-4 capitalize">{searchedUser.role}</td>
-                <td className="py-3 px-4">
-                  {searchedUser.provider || "Unknown"}
-                </td>
-                <td className="py-3 px-4">
-                  {new Date(searchedUser.createdAt).toLocaleDateString()}
-                </td>
-                <td className="py-3 px-4 space-x-2">
-                  {searchedUser.role !== "admin" ? (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
-                      onClick={() =>
-                        handleRoleChange(searchedUser._id, "admin")
-                      }
-                    >
-                      Make Admin
-                    </Button>
-                  ) : (
-                    <button className=" py-1 rounded" disabled>
-                      Admin
-                    </button>
-                  )}
-                  {searchedUser.role !== "vendor" && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="bg-gradient-to-r from-green-500 to-teal-500 text-white"
-                      onClick={() =>
-                        handleRoleChange(searchedUser._id, "vendor")
-                      }
-                    >
-                      Make Vendor
-                    </Button>
-                  )}
-                </td>
-              </tr>
+              {searchedUsers.map((user) => (
+                <tr key={user._id} className="border-b">
+                  <td className="py-3 px-4">{user.name || "N/A"}</td>
+                  <td className="py-3 px-4">{user.email}</td>
+                  <td className="py-3 px-4 capitalize">{user.role}</td>
+                  <td className="py-3 px-4">{user.provider || "Unknown"}</td>
+                  <td className="py-3 px-4">
+                    {new Date(user.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="py-3 px-4 space-x-2">
+                    {user.role !== "admin" ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+                        onClick={() => handleRoleChange(user._id, "admin")}
+                      >
+                        Make Admin
+                      </Button>
+                    ) : (
+                      <button className="py-1 rounded" disabled>
+                        Admin
+                      </button>
+                    )}
+                    {user.role !== "vendor" && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="bg-gradient-to-r from-green-500 to-teal-500 text-white"
+                        onClick={() => handleRoleChange(user._id, "vendor")}
+                      >
+                        Make Vendor
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -153,7 +153,7 @@ const AddProduct = () => {
         {/* 🔁 Dynamic Price Entry Section */}
         <div className="border p-4 rounded mb-4">
           <h3 className="font-semibold mb-2">📈 Add Price Entries</h3>
-          <div className="flex flex-wrap items-center gap-3 mb-2">
+          <div className="flex flex-wrap items-center gap-3 mb-2 dark:text-white">
             <input
               type="date"
               value={priceDate}
@@ -185,7 +185,7 @@ const AddProduct = () => {
             </button>
           </div>
           {prices.length > 0 && (
-            <ul className="list-disc ml-5 text-sm text-gray-700">
+            <ul className="list-disc ml-5 text-sm">
               {prices.map((p, i) => (
                 <li key={i}>
                   📅 {p.date} — ৳{p.price}

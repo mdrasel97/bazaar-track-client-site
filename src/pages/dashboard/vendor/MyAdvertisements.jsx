@@ -128,8 +128,8 @@ const MyAdvertisements = () => {
 
       {/* Update Modal */}
       {editingAd && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-md shadow-md w-full max-w-lg relative">
+        <div className="fixed inset-0  flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-black border border-blue-400 p-6 rounded-md shadow-md w-full max-w-lg relative">
             <h3 className="text-xl font-semibold mb-4 text-center">
               ✏️ Update Advertisement
             </h3>

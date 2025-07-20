@@ -30,7 +30,6 @@ const UpdateProduct = () => {
     const newPriceEntry = { date: priceDate, price: parseFloat(priceValue) };
 
     if (editIndex === -1) {
-      // নতুন এন্ট্রি যোগ করো
       setPrices([...prices, newPriceEntry]);
     } else {
       // এডিট মোডে আপডেট করো

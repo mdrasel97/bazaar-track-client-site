@@ -23,8 +23,6 @@ const Home = () => {
       <Banner />
       <motion.div
         className="mt-10 md:mt-16"
-        initial="hidden"
-        whileInView="visible"
         viewport={{ once: true, amount: 0.2 }} // 👈 triggers only once when 20% visible
         variants={fadeInUp}
       >

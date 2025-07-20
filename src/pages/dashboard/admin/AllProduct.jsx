@@ -103,7 +103,7 @@ const AllProduct = () => {
 
   //  Update product
   const handleUpdate = (id) => {
-    navigate(`/dashboard/updateProduct/${id}`);
+    navigate(`/dashboard/adminProductUP/${id}`);
   };
 
   //  Delete product

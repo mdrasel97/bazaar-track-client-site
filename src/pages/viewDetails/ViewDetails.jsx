@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLoaderData } from "react-router";
+// import { Skeleton } from "@/components/ui/skeleton";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import {
@@ -28,6 +29,8 @@ import { toast } from "react-toastify";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import ReviewForm from "./ReviewForm";
+import useUserRole from "../../hooks/useUserRole";
+import ReviewList from "../review/ReviewList";
 
 const ViewDetails = () => {
   const product = useLoaderData();
@@ -37,7 +40,6 @@ const ViewDetails = () => {
     itemDescription,
     itemName,
     productImage,
-    rating,
     pricePerUnit,
     marketName,
     date,
@@ -52,6 +54,7 @@ const ViewDetails = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [reviews, setReviews] = useState([]);
+  const { role, roleLoading } = useUserRole();
 
   console.log("reviews: ", reviews);
 
@@ -126,6 +129,10 @@ const ViewDetails = () => {
     fetchReviews();
   }, [fetchReviews]);
 
+  const handlePriceCompare = () => {
+    navigate("/dashboard/trends");
+  };
+
   return (
     <div className="">
       <div className=" mx-auto px-4 py-8">
@@ -162,7 +169,7 @@ const ViewDetails = () => {
 
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
+                  {/* {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
                       className={`w-5 h-5 ${
@@ -171,15 +178,27 @@ const ViewDetails = () => {
                           : ""
                       }`}
                     />
-                  ))}
+                  ))} */}
+                  <ReviewList productId={_id} />
                 </div>
-                <span className="">
+                {/* <span className="">
                   {rating || "No rating"} ({reviews?.length || 0} reviews)
-                </span>
+                </span> */}
               </div>
 
               <p className="text-3xl font-bold  mb-4">${pricePerUnit}</p>
               <p className="leading-relaxed">{itemDescription}</p>
+              <button
+                className={`mt-5 hover:text-blue-600 ${
+                  role === "admin" || role === "vendor"
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+                onClick={() => handlePriceCompare(_id)}
+                disabled={role === "admin" || role === "vendor"}
+              >
+                price Trends
+              </button>
             </div>
 
             {/* Quantity and Add to Cart */}
@@ -247,13 +266,22 @@ const ViewDetails = () => {
                   Add to Cart
                 </Button>
                 {/* watchList button  */}
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={handleAddToWatchList}
-                >
-                  <Heart className="w-5 h-5" />
-                </Button>
+                {roleLoading ? null : (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={handleAddToWatchList}
+                    disabled={role === "admin" || role === "vendor"}
+                  >
+                    <Heart className="w-5 h-5" />
+                  </Button>
+                )}
+
+                {/* {role === "admin" || role === "vendor" ? (
+                  <div className="text-sm text-gray-500 mt-2">
+                    🔒 Only regular users can add to WatchList.
+                  </div>
+                ) : null} */}
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { CartContext } from "../../context/CartContext";
+import ReviewList from "../../pages/review/ReviewList";
 
 const ProductCard = ({ product, viewMode }) => {
   const {
@@ -107,7 +108,7 @@ const ProductCard = ({ product, viewMode }) => {
 
           <div className="flex items-center mb-3">
             <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
+              {/* {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
                   className={`w-4 h-4 ${
@@ -116,11 +117,12 @@ const ProductCard = ({ product, viewMode }) => {
                       : "text-gray-300"
                   }`}
                 />
-              ))}
+              ))} */}
+              <ReviewList productId={_id} />
             </div>
-            <span className="text-sm text-gray-600 ml-2">
+            {/* <span className="text-sm ml-2">
               {product.rating} ({product.reviews})
-            </span>
+            </span> */}
           </div>
 
           <div
@@ -128,7 +130,7 @@ const ProductCard = ({ product, viewMode }) => {
               viewMode === "list" ? "mt-4" : ""
             }`}
           >
-            <span className="text-2xl font-bold">৳ {pricePerUnit} </span> kg
+            <span className="text-2xl font-bold">৳ {pricePerUnit} </span> 1 kg
           </div>
           <div className="flex gap-2 justify-between items-center mt-5">
             <Link to={`/products/${_id}`}>
