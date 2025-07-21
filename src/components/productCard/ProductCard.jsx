@@ -91,9 +91,9 @@ const ProductCard = ({ product, viewMode }) => {
             alt={itemName}
             className="w-full h-full object-content group-hover:scale-105 transition-transform duration-300 relative"
           />
-          <Badge variant="secondary" className="text-xs absolute  z-50">
-            {marketName}
-          </Badge>
+          {/* <Badge variant="secondary" className="text-xs absolute  z-50">
+            {date}
+          </Badge> */}
         </div>
 
         <div className="flex-1">

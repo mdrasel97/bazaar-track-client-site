@@ -153,7 +153,7 @@ const ViewDetails = () => {
                 src={productImage}
                 // alt=
                 // // {product.name}
-                className="w-full object-cover"
+                className="w-full object-cover h-[450px]"
               />
             </div>
             {/* <div className="grid grid-cols-4 gap-2">
