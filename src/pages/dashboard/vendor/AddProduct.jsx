@@ -52,7 +52,7 @@ const AddProduct = () => {
       itemDescription: data.itemDescription || "",
     };
 
-    console.log("Submitted product:", productData);
+    // console.log("Submitted product:", productData);
 
     axiosSecure.post("/products", productData).then((res) => {
       if (res.data.insertedId) {

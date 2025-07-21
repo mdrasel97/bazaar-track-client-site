@@ -19,7 +19,7 @@ const Navbar = () => {
   // console.log(email, name);
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching for:", searchQuery);
+    // console.log("Searching for:", searchQuery);
     // Navigate or filter logic here
   };
 

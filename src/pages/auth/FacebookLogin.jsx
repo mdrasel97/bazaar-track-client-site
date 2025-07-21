@@ -11,7 +11,7 @@ const FacebookLogin = () => {
       .then(async (result) => {
         const user = result.user;
 
-        console.log(user);
+        // console.log(user);
         // update user profile in database
         // const userInfo = {
         //   email: user.email,

@@ -12,7 +12,7 @@ import { useLoaderData } from "react-router";
 
 const PriceTrendChart = () => {
   const product = useLoaderData();
-  console.log(product);
+  // console.log(product);
 
   // Destructure needed fields
   const { itemName, marketName, vendorName, prices = [] } = product;

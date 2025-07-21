@@ -24,13 +24,20 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import ProfileDropdown from "../../pages/profileDropdown/ProfileDropdown";
 import useAuth from "../../hooks/useAuth";
 import Logo from "../../components/logo/Logo";
 import useUserRole from "../../hooks/useUserRole";
 import Loading from "../../components/loading/Loading";
 import { toast } from "react-toastify";
+// import { DialogTitle } from "@radix-ui/react-dialog";
 
 const DashboardLayout = () => {
   const location = useLocation();
@@ -199,9 +206,13 @@ const DashboardLayout = () => {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-64">
-              <div className="p-4 font-bold text-xl text-blue-600">
+              <SheetTitle className="text-xl font-bold text-blue-600 p-4">
                 Dashboard
-              </div>
+              </SheetTitle>
+              <SheetDescription className="sr-only">
+                Navigation panel for managing dashboard sections.
+              </SheetDescription>
+
               <nav className="space-y-2">
                 {navItems.map((item) => (
                   <Link
@@ -222,7 +233,7 @@ const DashboardLayout = () => {
             </SheetContent>
           </Sheet>
 
-          <div className="text-xl font-bold text-blue-600">
+          <div className="text-xl font-bold">
             {/* BazaarTrack Dashboard */}
             <Logo />
           </div>

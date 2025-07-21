@@ -44,6 +44,7 @@ const ViewDetails = () => {
     marketName,
     date,
     vendorName,
+    category,
     vendorEmail,
   } = product;
 
@@ -56,7 +57,7 @@ const ViewDetails = () => {
   const [reviews, setReviews] = useState([]);
   const { role, roleLoading } = useUserRole();
 
-  console.log("reviews: ", reviews);
+  // console.log("reviews: ", reviews);
 
   const handleQuantityChange = (delta) => {
     setQuantity((prev) => {
@@ -163,27 +164,15 @@ const ViewDetails = () => {
           <div className="space-y-6">
             <div>
               <Badge variant="secondary" className="mb-2">
-                {itemName}
+                {category}
               </Badge>
               <h1 className="text-3xl font-bold  mb-4">{itemName}</h1>
+              <p className="leading-relaxed mb-3">{date}</p>
 
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center">
-                  {/* {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-5 h-5 ${
-                        i < Math.floor(rating)
-                          ? "text-yellow-400 fill-current"
-                          : ""
-                      }`}
-                    />
-                  ))} */}
                   <ReviewList productId={_id} />
                 </div>
-                {/* <span className="">
-                  {rating || "No rating"} ({reviews?.length || 0} reviews)
-                </span> */}
               </div>
 
               <p className="text-3xl font-bold  mb-4">${pricePerUnit}</p>

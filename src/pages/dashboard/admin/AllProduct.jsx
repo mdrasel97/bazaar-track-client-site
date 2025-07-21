@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 import { Check, Pencil, Trash, X } from "lucide-react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -131,79 +132,82 @@ const AllProduct = () => {
   return (
     <div className="max-w-6xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">🧾 All Products</h2>
-      <div className="overflow-x-auto rounded-md border">
-        {loading ? (
-          <p className="text-center py-4">Loading...</p>
-        ) : (
-          <table className="min-w-full text-sm text-left">
-            <thead>
-              <tr>
-                <th className="p-3">Item</th>
-                <th className="p-3">Market</th>
-                <th className="p-3">Vendor</th>
-                <th className="p-3">Date</th>
-                <th className="p-3">Price</th>
-                <th className="p-3">Status</th>
-                <th className="p-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((p) => (
-                <tr key={p._id} className="border-t">
-                  <td className="p-3">{p.itemName}</td>
-                  <td className="p-3">{p.marketName}</td>
-                  <td className="p-3">{p.vendorEmail}</td>
-                  <td className="p-3">{p.date}</td>
-                  <td className="p-3">৳{p.pricePerUnit}</td>
-                  <td className="p-3 capitalize">
-                    {p.status}
-                    {p.status === "rejected" && p.feedback && (
-                      <div className="text-xs text-red-600 italic">
-                        Reason: {p.feedback}
-                      </div>
-                    )}
-                  </td>
-                  <td className="p-3 text-right">
-                    <div className="flex flex-wrap justify-end items-center gap-2">
-                      {p.status === "pending" && (
-                        <>
-                          <Button
-                            size="sm"
-                            onClick={() => handleApprove(p._id)}
-                          >
-                            <Check className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => handleReject(p._id)}
-                          >
-                            <X className="w-4 h-4" />
-                          </Button>
-                        </>
-                      )}
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleUpdate(p._id)}
-                      >
-                        <Pencil className="w-4 h-4 mr-1" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleDelete(p._id)}
-                      >
-                        <Trash />
-                      </Button>
-                    </div>
-                  </td>
+      <ScrollArea className="rounded-md border w-96 md:w-full whitespace-nowrap">
+        <div className="overflow-x-auto rounded-md border w-full">
+          {loading ? (
+            <p className="text-center py-4">Loading...</p>
+          ) : (
+            <table className="w-full text-sm text-left">
+              <thead>
+                <tr>
+                  <th className="p-3">Item</th>
+                  <th className="p-3">Market</th>
+                  <th className="p-3">Vendor</th>
+                  <th className="p-3">Date</th>
+                  <th className="p-3">Price</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3 text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+              </thead>
+              <tbody>
+                {products.map((p) => (
+                  <tr key={p._id} className="border-t">
+                    <td className="p-3">{p.itemName}</td>
+                    <td className="p-3">{p.marketName}</td>
+                    <td className="p-3">{p.vendorEmail}</td>
+                    <td className="p-3">{p.date}</td>
+                    <td className="p-3">৳{p.pricePerUnit}</td>
+                    <td className="p-3 capitalize">
+                      {p.status}
+                      {p.status === "rejected" && p.feedback && (
+                        <div className="text-xs text-red-600 italic">
+                          Reason: {p.feedback}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-3 text-right">
+                      <div className="flex flex-wrap justify-end items-center gap-2">
+                        {p.status === "pending" && (
+                          <>
+                            <Button
+                              size="sm"
+                              onClick={() => handleApprove(p._id)}
+                            >
+                              <Check className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleReject(p._id)}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </>
+                        )}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleUpdate(p._id)}
+                        >
+                          <Pencil className="w-4 h-4 mr-1" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDelete(p._id)}
+                        >
+                          <Trash />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
 
       {/* add pagination  */}
       <div className="flex justify-center items-center gap-4 mt-6">

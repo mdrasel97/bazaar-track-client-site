@@ -17,7 +17,7 @@ const GoogleLogin = () => {
       .then(async (result) => {
         const user = result.user;
 
-        console.log(user);
+        // console.log(user);
         // update user profile in database
         const userInfo = {
           name: user.displayName,
@@ -27,8 +27,8 @@ const GoogleLogin = () => {
           createdAt: new Date().toISOString(),
           lastLogin: new Date().toISOString(),
         };
-        const userRes = await axiosInstant.post("/users", userInfo);
-        console.log("update user", userRes.data);
+        await axiosInstant.post("/users", userInfo);
+        // console.log("update user", userRes.data);
         navigate(from);
       })
       .catch((error) => {

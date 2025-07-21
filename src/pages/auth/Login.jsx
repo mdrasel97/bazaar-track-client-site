@@ -21,11 +21,11 @@ const Login = () => {
   const from = location.state?.from || "/";
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     signInUser(data.email, data.password)
       .then(async (result) => {
         const user = result.user;
-        console.log(user);
+        // console.log(user);
         navigate(from);
         toast.success("user sign in successfully");
       })

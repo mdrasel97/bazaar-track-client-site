@@ -16,7 +16,7 @@ const AddAdvertisement = () => {
   const { user } = useAuth();
 
   const onSubmit = async (data) => {
-    console.log("Submitted data:", data);
+    // console.log("Submitted data:", data);
     const newAd = {
       vendorEmail: user?.email,
       vendorName: user?.displayName,

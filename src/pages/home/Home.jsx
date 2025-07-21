@@ -20,6 +20,7 @@ const Home = () => {
   // console.log(products);
   return (
     <div>
+      <title>Home</title>
       <Banner />
       <motion.div
         className="mt-10 md:mt-16"
@@ -36,7 +37,14 @@ const Home = () => {
           ))}
         </div>
       </motion.div>
-      <WhyChooseBazaarTrack />
+      <motion.div
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <WhyChooseBazaarTrack />
+      </motion.div>
       <AdvertisementHighlights />
       <Contact />
     </div>

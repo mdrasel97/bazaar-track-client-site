@@ -1,12 +1,73 @@
-# React + Vite
+# 🛒 BazaarTrack - Daily Local Market Price Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**BazaarTrack** is a web application that helps users track daily price updates for local market items. Vendors can submit item prices, and users can view price trends over time. The platform ensures transparency, market awareness, and easy decision-making for everyday shoppers.
 
-Currently, two official plugins are available:
+## 🌐 Live Site
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[👉 Visit BazaarTrack](https://bazaar-track.web.app/)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Features
+
+### 👥 User Roles
+
+- **User**: View item prices and trends.
+- **Vendor**: Submit daily price updates for local items.
+- **Admin**: Manage users, vendors, products, advertisements, and approve/reject submissions.
+
+### 📊 Price Tracking
+
+- Track price changes for local market products.
+- View historical trends using interactive graphs.
+
+### 📈 Data Visualization
+
+- Graphs showing item price changes over days/weeks.
+- Filter by date range, market, and item.
+
+### 🛍️ Vendor Panel
+
+- Submit new product prices with images.
+- Update or delete price entries.
+- View approval status and admin feedback.
+
+### 📢 Advertisement System
+
+- Vendors can create and manage ads.
+- Admin can approve or reject ads with feedback.
+
+### 🔐 Authentication
+
+- Firebase Authentication for user login/register.
+- Role-based access control for dashboard routes.
+
+### 💳 Payment Integration
+
+- Stripe payment for users to purchase premium services or features.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- React
+- React Router
+- Tailwind CSS + DaisyUI
+- React Hook Form
+- React Toastify
+- Chart.js or Recharts (for graphs)
+- Framer Motion (animations)
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Firebase Admin SDK (for role verification)
+- Stripe (payment processing)
+
+---
+
+## 📁 Folder Structure (Frontend)

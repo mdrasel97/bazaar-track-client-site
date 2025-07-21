@@ -13,7 +13,7 @@ const ProductCard = ({ product, viewMode }) => {
     itemName,
     productImage,
     itemDescription,
-    category,
+    marketName,
     pricePerUnit,
   } = product;
 
@@ -89,14 +89,17 @@ const ProductCard = ({ product, viewMode }) => {
           <img
             src={productImage || " "}
             alt={itemName}
-            className="w-full h-full object-content group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-content group-hover:scale-105 transition-transform duration-300 relative"
           />
+          <Badge variant="secondary" className="text-xs absolute  z-50">
+            {marketName}
+          </Badge>
         </div>
 
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
             <Badge variant="secondary" className="text-xs">
-              {category}
+              {marketName}
             </Badge>
           </div>
 
@@ -108,21 +111,8 @@ const ProductCard = ({ product, viewMode }) => {
 
           <div className="flex items-center mb-3">
             <div className="flex items-center">
-              {/* {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-4 h-4 ${
-                    i < Math.floor(product.rating)
-                      ? "text-yellow-400 fill-current"
-                      : "text-gray-300"
-                  }`}
-                />
-              ))} */}
               <ReviewList productId={_id} />
             </div>
-            {/* <span className="text-sm ml-2">
-              {product.rating} ({product.reviews})
-            </span> */}
           </div>
 
           <div

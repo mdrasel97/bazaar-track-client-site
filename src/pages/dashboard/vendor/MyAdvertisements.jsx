@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Swal from "sweetalert2";
 import Loading from "../../../components/loading/Loading";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const MyAdvertisements = () => {
   const { user } = useAuth();
@@ -91,40 +92,42 @@ const MyAdvertisements = () => {
   return (
     <div className="max-w-5xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-6">📢 My Advertisements</h2>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border border-gray-200 rounded-md">
-          <thead className="">
-            <tr>
-              <th className="p-3">Ad Title</th>
-              <th className="p-3">Short Description</th>
-              <th className="p-3">Status</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ads.map((ad) => (
-              <tr key={ad._id} className="border-t">
-                <td className="p-3">{ad.title}</td>
-                <td className="p-3 line-clamp-1">{ad.description}</td>
-                <td className="p-3 capitalize">{ad.status}</td>
-                <td className="p-3 flex gap-2">
-                  <Button size="sm" onClick={() => setEditingAd(ad)}>
-                    Update
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleDelete(ad._id)}
-                  >
-                    Delete
-                  </Button>
-                </td>
+      <ScrollArea className="rounded-md border w-96 md:w-full whitespace-nowrap">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border border-gray-200 rounded-md">
+            <thead className="">
+              <tr>
+                <th className="p-3">Ad Title</th>
+                <th className="p-3">Short Description</th>
+                <th className="p-3">Status</th>
+                <th className="p-3">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {ads.map((ad) => (
+                <tr key={ad._id} className="border-t">
+                  <td className="p-3">{ad.title}</td>
+                  <td className="p-3 line-clamp-1">{ad.description}</td>
+                  <td className="p-3 capitalize">{ad.status}</td>
+                  <td className="p-3 flex gap-2">
+                    <Button size="sm" onClick={() => setEditingAd(ad)}>
+                      Update
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(ad._id)}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
 
       {/* Update Modal */}
       {editingAd && (

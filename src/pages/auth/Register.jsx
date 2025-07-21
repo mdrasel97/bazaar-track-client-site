@@ -26,12 +26,12 @@ const Register = () => {
   const from = location.state?.from || "/";
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
 
     createUser(data.email, data.password)
       .then(async (result) => {
         const user = result.user;
-        console.log(user);
+        // console.log(user);
 
         // database connect
         const userInfo = {
@@ -44,7 +44,7 @@ const Register = () => {
         };
 
         const userRes = await axiosInstant.post("/users", userInfo);
-        console.log(userRes.data);
+        // console.log(userRes.data);
 
         // update user profile in firebase
         const userProfile = {

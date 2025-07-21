@@ -11,7 +11,7 @@ const ReviewList = ({ productId }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axiosSecure.get(`/reviews/${productId}`); // ✅ used productId instead of _id
+        const res = await axiosSecure.get(`/reviews/${productId}`);
         const data = res.data;
         setReviews(data);
 
@@ -29,7 +29,7 @@ const ReviewList = ({ productId }) => {
     };
 
     fetchReviews();
-  }, [productId, axiosSecure]); // ✅ dependency should be productId, not _id
+  }, [productId, axiosSecure]); // dependency should be productId, not _id
 
   return (
     <div className="flex items-center mb-3">
@@ -45,7 +45,7 @@ const ReviewList = ({ productId }) => {
           />
         ))}
       </div>
-      <span className="text-sm ml-2 text-gray-600">
+      <span className="text-sm ml-2">
         {averageRating} ({reviews.length})
       </span>
     </div>
