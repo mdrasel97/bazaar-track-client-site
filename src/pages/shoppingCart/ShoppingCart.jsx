@@ -74,7 +74,7 @@ const ShoppingCart = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-2">🛒 Shopping Cart</h1>
-      <p className="text-gray-600 mb-6">
+      <p className="mb-6">
         {cartItems.length} item{cartItems.length !== 1 && "s"} in your cart
       </p>
 
@@ -89,16 +89,14 @@ const ShoppingCart = () => {
             {cartItems.map((item) => (
               <div
                 key={item._id}
-                className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white rounded-lg p-4 shadow-sm"
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between border border-blue-400 rounded-lg p-4 shadow-sm"
               >
                 <div className="flex-1">
                   <h2 className="text-lg font-semibold">{item.itemName}</h2>
-                  <p className="text-sm text-gray-500 line-clamp-2">
+                  <p className="text-sm line-clamp-2">
                     {item.itemDescription || "No description available"}
                   </p>
-                  <p className="mt-1 font-semibold text-gray-800">
-                    ৳ {item.pricePerUnit}
-                  </p>
+                  <p className="mt-1 font-semibold">৳ {item.pricePerUnit}</p>
                 </div>
 
                 <div className="flex items-center mt-4 sm:mt-0 gap-2">
@@ -123,7 +121,7 @@ const ShoppingCart = () => {
                 </div>
 
                 <div className="mt-3 sm:mt-0 flex items-center gap-3">
-                  <span className="text-lg font-bold text-gray-900">
+                  <span className="text-lg font-bold ">
                     ৳ {(item.pricePerUnit * item.quantity).toFixed(2)}
                   </span>
                   <Button
@@ -146,17 +144,17 @@ const ShoppingCart = () => {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white p-6 rounded-lg shadow-md space-y-4 h-fit">
+          <div className=" p-6 rounded-lg shadow-md space-y-4 h-fit border border-white">
             <h3 className="text-xl font-bold mb-3">Order Summary</h3>
-            <div className="flex justify-between text-gray-700">
+            <div className="flex justify-between ">
               <span>Subtotal</span>
               <span>৳ {subtotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between text-gray-700">
+            <div className="flex justify-between ">
               <span>Shipping</span>
               <span>Free</span>
             </div>
-            <div className="flex justify-between text-gray-700">
+            <div className="flex justify-between ">
               <span>Tax (8%)</span>
               <span>৳ {tax}</span>
             </div>

@@ -195,6 +195,7 @@ const DashboardLayout = () => {
   };
   return (
     <div className="min-h-screen   md:flex flex-col">
+      <title>Bazaar Track || Dashboard</title>
       {/* Navbar */}
       <header className="sticky top-0 z-40 border-b shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
@@ -206,9 +207,12 @@ const DashboardLayout = () => {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-64">
-              <SheetTitle className="text-xl font-bold text-blue-600 p-4">
-                Dashboard
-              </SheetTitle>
+              <Link to={`/dashboard`}>
+                {" "}
+                <SheetTitle className="text-xl font-bold text-blue-600 p-4">
+                  Dashboard
+                </SheetTitle>
+              </Link>
               <SheetDescription className="sr-only">
                 Navigation panel for managing dashboard sections.
               </SheetDescription>
@@ -264,7 +268,11 @@ const DashboardLayout = () => {
       <div className="flex flex-1">
         {/* Sidebar (Desktop) */}
         <aside className="hidden md:block w-64 border-r shadow-sm">
-          <div className="p-6 font-bold text-xl text-blue-600">Dashboard </div>
+          <Link>
+            <div className="p-6 font-bold text-xl text-blue-600">
+              Dashboard{" "}
+            </div>
+          </Link>
           <nav className="px-4 space-y-2">
             {navItems.map((item) => (
               <Link

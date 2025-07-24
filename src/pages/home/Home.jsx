@@ -20,7 +20,7 @@ const Home = () => {
   // console.log(products);
   return (
     <div>
-      <title>Home</title>
+      <title>Bazaar Track || Home</title>
       <Banner />
       <motion.div
         className="mt-10 md:mt-16"

@@ -42,6 +42,7 @@ const AllOrders = () => {
 
   return (
     <div className="p-6">
+      <title>Bazaar Track || All Orders</title>
       <h2 className="text-2xl font-semibold ">All Orders</h2>
       <p className="mb-6">orders- {orders.length}</p>
 

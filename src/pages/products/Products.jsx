@@ -81,6 +81,7 @@ const Products = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-4">
+      <title>Bazaar Track || Products</title>
       <h2 className="text-2xl font-bold mb-6">📦 All Products</h2>
 
       {/* 🔍 Filters */}

@@ -17,6 +17,7 @@ const Profile = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-10 px-4">
+      <title>Bazaar Track || Profile</title>
       <Card className="overflow-hidden shadow-lg">
         {/* Cover Photo */}
         <div className="relative h-40 md:h-52 w-full">

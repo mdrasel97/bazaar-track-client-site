@@ -91,6 +91,7 @@ const MyAdvertisements = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-4">
+      <title>Bazaar Track || My Advertisements</title>
       <h2 className="text-2xl font-bold mb-6">📢 My Advertisements</h2>
       <ScrollArea className="rounded-md border w-96 md:w-full whitespace-nowrap">
         <div className="overflow-x-auto">

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { Check, Pencil, Trash, X } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../components/loading/Loading";
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -131,11 +132,14 @@ const AllProduct = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-4">
+      <title>Bazaar Track || All Products</title>
       <h2 className="text-2xl font-bold mb-4">🧾 All Products</h2>
       <ScrollArea className="rounded-md border w-96 md:w-full whitespace-nowrap">
         <div className="overflow-x-auto rounded-md border w-full">
           {loading ? (
-            <p className="text-center py-4">Loading...</p>
+            <>
+              <Loading></Loading>
+            </>
           ) : (
             <table className="w-full text-sm text-left">
               <thead>

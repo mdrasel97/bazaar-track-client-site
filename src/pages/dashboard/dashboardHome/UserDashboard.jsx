@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, ShoppingCart, Eye, TrendingUp } from "lucide-react";
-import useAxiosSecure from "@/hooks/useAxiosSecure";
-import useAuth from "@/hooks/useAuth";
+
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 
 const UserDashboard = () => {
   const { user } = useAuth();
@@ -20,16 +21,16 @@ const UserDashboard = () => {
 
     const fetchUserStats = async () => {
       try {
-        const [ordersRes, watchRes, trendRes] = await Promise.all([
-          axiosSecure.get(`/orders/user?email=${user.email}`),
-          axiosSecure.get(`/watchList?email=${user.email}`),
-          axiosSecure.get(`/trends/user?email=${user.email}`),
+        const [ordersRes, watchRes] = await Promise.all([
+          axiosSecure.get(`/my-orders?email=${user?.email}`),
+          axiosSecure.get(`/watchList?email=${user?.email}`),
+          // axiosSecure.get(`/trends/user?email=${user?.email}`),
         ]);
 
         setStats({
           orders: ordersRes.data.length || 0,
           watchlist: watchRes.data.length || 0,
-          trends: trendRes.data.length || 0,
+          trends: 0,
         });
       } catch (error) {
         console.error("❌ Failed to fetch user dashboard data", error);

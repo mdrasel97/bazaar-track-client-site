@@ -63,6 +63,7 @@ const MyProducts = () => {
 
   return (
     <div className="p-4 md:p-8">
+      <title>Bazaar Track || My Products</title>
       <h2 className="text-2xl font-bold mb-6">My Submitted Products</h2>
       {products.length === 0 ? (
         <p className="">No products found.</p>

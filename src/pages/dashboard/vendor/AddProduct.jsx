@@ -91,6 +91,7 @@ const AddProduct = () => {
 
   return (
     <div className="max-w-4xl mx-auto shadow p-6 rounded-md">
+      <title>Bazaar Track || Add Product</title>
       <h2 className="text-3xl font-bold mb-5 text-center">
         🛒 Add New Product
       </h2>

@@ -23,22 +23,6 @@ const Navbar = () => {
     // Navigate or filter logic here
   };
 
-  // useEffect(() => {
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  //   const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-  //   setTotalItems(total);
-  // }, []);
-
-  // useEffect(() => {
-  //   const handleStorageChange = () => {
-  //     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  //     const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-  //     setTotalItems(total);
-  //   };
-
-  //   window.addEventListener("storage", handleStorageChange);
-  //   return () => window.removeEventListener("storage", handleStorageChange);
-  // }, []);
   return (
     <header className=" shadow-sm border-b sticky bg-accent top-0 z-50">
       <div className="container mx-auto px-4 py-4">

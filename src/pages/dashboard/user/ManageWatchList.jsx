@@ -54,9 +54,8 @@ const ManageWatchList = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-6">🔖 Manage WatchList</h2>
-
       <div className="overflow-x-auto">
-        <table className="min-w-full  border rounded shadow-sm">
+        <table className="min-w-full border rounded shadow-sm">
           <thead className="text-left">
             <tr>
               <th className="py-3 px-4 border-b">Product</th>
@@ -91,31 +90,38 @@ const ManageWatchList = () => {
                     </DialogTrigger>
 
                     <DialogContent className="text-center">
-                      {selectedItem && (
-                        <>
-                          <p className="text-lg font-semibold mb-4">
-                            Are you sure you want to remove <br />
-                            <span className="text-red-600">
+                      <DialogHeader>
+                        <DialogTitle className="text-lg font-semibold mb-2">
+                          Remove from WatchList?
+                        </DialogTitle>
+                        {selectedItem && (
+                          <DialogDescription className="text-base">
+                            Are you sure you want to remove{" "}
+                            <span className="text-red-600 font-bold">
                               {selectedItem.itemName}
                             </span>{" "}
-                            from your watchlist?
-                          </p>
-                          <div className="flex justify-center gap-4">
-                            <Button
-                              variant="outline"
-                              onClick={() => setSelectedItem(null)}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              // className="bg-red-500"
-                              onClick={() => handleRemove(selectedItem._id)}
-                            >
-                              Confirm Remove
-                            </Button>
-                          </div>
-                        </>
+                            from your watchlist? This action cannot be undone.
+                          </DialogDescription>
+                        )}
+                      </DialogHeader>
+
+                      {selectedItem && (
+                        <div className="flex justify-center gap-4 mt-4">
+                          {" "}
+                          {/* mt-4 যোগ করা হয়েছে স্পেসের জন্য */}
+                          <Button
+                            variant="outline"
+                            onClick={() => setSelectedItem(null)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            onClick={() => handleRemove(selectedItem._id)}
+                          >
+                            Confirm Remove
+                          </Button>
+                        </div>
                       )}
                     </DialogContent>
                   </Dialog>

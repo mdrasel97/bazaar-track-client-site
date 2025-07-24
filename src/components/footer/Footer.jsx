@@ -47,17 +47,17 @@ export default function Footer() {
           <h4 className="text-white font-semibold mb-3">Support</h4>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link to="/help" className="hover:underline">
+              <Link to="" className="hover:underline">
                 Help Center
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:underline">
+              <Link to="" className="hover:underline">
                 Contact Us
               </Link>
             </li>
             <li>
-              <Link to="/shipping" className="hover:underline">
+              <Link to="/cart" className="hover:underline">
                 Shipping Info
               </Link>
             </li>
@@ -69,17 +69,17 @@ export default function Footer() {
           <h4 className="text-white font-semibold mb-3">Connect</h4>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link to="/newsletter" className="hover:underline">
+              <Link to="" className="hover:underline">
                 Newsletter
               </Link>
             </li>
             <li>
-              <Link to="/social" className="hover:underline">
+              <Link to="" className="hover:underline">
                 Social Media
               </Link>
             </li>
             <li>
-              <Link to="/blog" className="hover:underline">
+              <Link to="" className="hover:underline">
                 Blog
               </Link>
             </li>

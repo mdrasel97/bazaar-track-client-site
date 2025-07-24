@@ -61,6 +61,7 @@ const AllAdvertisement = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-4">
+      <title>Bazaar Track || All Advertisements</title>
       <h2 className="text-2xl font-bold mb-4">📢 All Advertisements</h2>
 
       <ScrollArea className="rounded-md border w-96 md:w-full whitespace-nowrap">

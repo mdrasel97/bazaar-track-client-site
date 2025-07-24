@@ -43,6 +43,7 @@ const AddAdvertisement = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-6 rounded-md shadow">
+      <title>Bazaar Track || Add Advertisement</title>
       <h2 className="text-2xl font-bold mb-6 text-center">
         📢 Add Advertisement
       </h2>
