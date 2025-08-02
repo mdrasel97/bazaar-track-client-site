@@ -37,7 +37,7 @@ const Contact = () => {
         {/* Image */}
         <div className="hidden md:block">
           <img
-            src="https://i.ibb.co/5W3SDQFJ/Rectangle-14.png"
+            src="https://i.ibb.co/qFcymXc1/Screenshot-3.png"
             alt="Contact Us"
             className="rounded-xl shadow-lg w-full h-[400px]"
           />

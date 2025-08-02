@@ -38,8 +38,7 @@ export const router = createBrowserRouter([
       {
         path: "/",
         Component: Home,
-        loader: () =>
-          fetch("https://bazaar-track-server.vercel.app/products/home"),
+        loader: () => fetch("http://localhost:5000/products/home"),
         HydrateFallback: Error,
       },
       {
@@ -62,7 +61,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://bazaar-track-server.vercel.app/products/${params.id}`),
+          fetch(`http://localhost:5000/products/${params.id}`),
         HydrateFallback: Error,
       },
       {
@@ -81,7 +80,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         // loader: ({ params }) =>
-        //   fetch(`https://bazaar-track-server.vercel.app/products/approved/${params.id}`),
+        //   fetch(`http://localhost:5000/products/approved/${params.id}`),
       },
     ],
   },
@@ -120,9 +119,7 @@ export const router = createBrowserRouter([
             path: "/dashboard/trends",
             Component: TrendViewer,
             loader: () =>
-              fetch(
-                "https://bazaar-track-server.vercel.app/products/approved/trends"
-              ),
+              fetch("http://localhost:5000/products/approved/trends"),
             HydrateFallback: Error,
           },
           {
@@ -152,9 +149,7 @@ export const router = createBrowserRouter([
             path: "/dashboard/updateProduct/:id",
             Component: UpdateProduct,
             loader: ({ params }) =>
-              fetch(
-                `https://bazaar-track-server.vercel.app/products/${params.id}`
-              ),
+              fetch(`http://localhost:5000/products/${params.id}`),
             HydrateFallback: Error,
           },
           {
@@ -183,9 +178,7 @@ export const router = createBrowserRouter([
             path: "/dashboard/adminProductUP/:id",
             Component: UpdateProduct,
             loader: ({ params }) =>
-              fetch(
-                `https://bazaar-track-server.vercel.app/products/${params.id}`
-              ),
+              fetch(`http://localhost:5000/products/${params.id}`),
             HydrateFallback: Error,
           },
           {

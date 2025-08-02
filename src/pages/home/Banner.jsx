@@ -60,7 +60,7 @@ const Banner = () => {
               style={{ backgroundImage: `url(${slide.src})` }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4 text-center">
-                <div className="bg-gradient-to-r from-purple-800 to-blue-800 backdrop-blur-sm rounded-lg px-6 py-8 max-w-3xl">
+                <div className="bg-gradient-to-r from-purple-800/50 to-blue-800/50  rounded-lg px-6 py-8 max-w-3xl">
                   <h2 className="text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg">
                     {slide.title}
                   </h2>

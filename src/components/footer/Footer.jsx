@@ -88,7 +88,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Text */}
-      <div className="mt-10 border-t border-gray-800 pt-4 text-center text-sm text-gray-500">
+      <div className="mt-10 border-t border-gray-800 pt-4 text-center text-sm">
         © {new Date().getFullYear()} Bazaar Track. All rights reserved.
       </div>
     </footer>

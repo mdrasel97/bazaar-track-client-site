@@ -37,6 +37,7 @@ import Logo from "../../components/logo/Logo";
 import useUserRole from "../../hooks/useUserRole";
 import Loading from "../../components/loading/Loading";
 import { toast } from "react-toastify";
+import { ModeToggle } from "../../components/ui/mode-toggle";
 // import { DialogTitle } from "@radix-ui/react-dialog";
 
 const DashboardLayout = () => {
@@ -242,26 +243,32 @@ const DashboardLayout = () => {
             <Logo />
           </div>
 
-          {/* Profile Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar className="cursor-pointer">
-                <AvatarImage src={user?.photoURL} alt="User" />
-                <AvatarFallback>
-                  <User className="w-6 h-6" />
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <Link to="/profile">Profile</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/">Home</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogOut}>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center gap-3">
+            <ModeToggle />
+
+            {/* Profile Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="cursor-pointer border-2 border-blue-500">
+                  <AvatarImage src={user?.photoURL} alt="User" />
+                  <AvatarFallback>
+                    <User className="w-6 h-6" />
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link to="/profile">Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/">Home</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogOut}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </header>
 

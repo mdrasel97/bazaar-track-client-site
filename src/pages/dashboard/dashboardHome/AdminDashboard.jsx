@@ -1,7 +1,19 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Box, ListOrdered, Megaphone, Users } from "lucide-react";
-import useAxiosSecure from "@/hooks/useAxiosSecure";
+
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import Loading from "../../../components/loading/Loading";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+
+const COLORS = ["#00C49F", "#FF5C7C", "#FFBB28", "#5DADE2", "#9B59B6"];
 
 const AdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
@@ -11,24 +23,34 @@ const AdminDashboard = () => {
     orders: 0,
     advertisements: 0,
     users: 0,
+    productsStatus: {
+      deliverable: 0,
+      undeliverable: 0,
+      risky: 0,
+      unknown: 0,
+      duplicate: 0,
+    },
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [productsRes, ordersRes, adsRes, usersRes] = await Promise.all([
-          axiosSecure.get("/products"),
-          axiosSecure.get("/orders"),
-          axiosSecure.get("/admin/advertisements"),
-          axiosSecure.get("/users"),
-        ]);
+        const [productsRes, ordersRes, adsRes, usersRes, statusRes] =
+          await Promise.all([
+            axiosSecure.get("/products"),
+            axiosSecure.get("/orders"),
+            axiosSecure.get("/admin/advertisements"),
+            axiosSecure.get("/users"),
+            axiosSecure.get("/products/status"), // Make sure this endpoint exists in your backend
+          ]);
 
         setStats({
           products: productsRes.data.length || 0,
           orders: ordersRes.data.length || 0,
           advertisements: adsRes.data.length || 0,
           users: usersRes.data.length || 0,
+          productsStatus: statusRes.data || {},
         });
       } catch (err) {
         console.error("Failed to fetch admin stats:", err);
@@ -41,12 +63,7 @@ const AdminDashboard = () => {
   }, [axiosSecure]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
-        <span className="ml-2">Loading admin stats...</span>
-      </div>
-    );
+    return <Loading />;
   }
 
   const cards = [
@@ -76,6 +93,21 @@ const AdminDashboard = () => {
     },
   ];
 
+  const productStatusData = [
+    {
+      name: "approved",
+      value: stats.productsStatus?.approved || 0,
+    },
+    {
+      name: "pending",
+      value: stats.productsStatus?.pending || 0,
+    },
+    // {
+    //   name: "Risky",
+    //   value: stats.productsStatus?.risky || 0,
+    // },
+  ];
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-6">📊 Admin Dashboard</h2>
@@ -92,6 +124,34 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Chart Section */}
+      <div className="mt-10 p-6 bg-white dark:bg-black rounded-xl shadow">
+        <h3 className="text-xl font-bold mb-4">📦 Product Status Overview</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={productStatusData}
+              cx="50%"
+              cy="50%"
+              innerRadius={70}
+              outerRadius={100}
+              paddingAngle={3}
+              dataKey="value"
+              label={({ percent }) => `${(percent * 100).toFixed(1)}%`}
+            >
+              {productStatusData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend verticalAlign="middle" align="right" layout="vertical" />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

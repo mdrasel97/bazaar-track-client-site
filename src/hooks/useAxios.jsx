@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstant = axios.create({
-  baseURL: "https://bazaar-track-server.vercel.app",
+  baseURL: "http://localhost:5000",
 });
 
 const useAxios = () => {
