@@ -8,7 +8,7 @@ const AdvertisementHighlights = () => {
   const [ads, setAds] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/advertisements/highlights") // Change to your actual API
+    fetch("https://bazaar-track-server.vercel.app/advertisements/highlights") // Change to your actual API
       .then((res) => res.json())
       .then((data) => {
         const approvedAds = data.filter((ad) => ad.status === "approved");

@@ -20,7 +20,7 @@ const ReviewForm = ({ productId, onReviewAdded }) => {
       date: new Date().toISOString().split("T")[0],
     };
 
-    const res = await fetch("http://localhost:5000/reviews", {
+    const res = await fetch("https://bazaar-track-server.vercel.app/reviews", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(review),

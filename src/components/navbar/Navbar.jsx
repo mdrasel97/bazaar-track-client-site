@@ -48,6 +48,9 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
+            <Link to="/ai" className=" transition-colors">
+              Labu Ai
+            </Link>
             <Link to="/products" className=" transition-colors">
               Products
             </Link>

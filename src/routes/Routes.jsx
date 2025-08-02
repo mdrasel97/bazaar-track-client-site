@@ -29,6 +29,7 @@ import Forbidden from "../components/forbidden/Forbidden";
 import RoleProtectedRoute from "../pages/dashboard/protectedRoute/RoleProtectedRoute";
 import Profile from "../pages/profile/Profile";
 import DashboardHome from "../pages/dashboard/dashboardHome/DashboardHome";
+import Ai from "../components/ai/Ai";
 
 export const router = createBrowserRouter([
   {
@@ -38,8 +39,14 @@ export const router = createBrowserRouter([
       {
         path: "/",
         Component: Home,
-        loader: () => fetch("http://localhost:5000/products/home"),
+        loader: () =>
+          fetch("https://bazaar-track-server.vercel.app/products/home"),
         HydrateFallback: Error,
+      },
+      {
+        path: "/ai",
+        Component: Ai,
+        // loader: () => fetch("https://bazaar-track-server.vercel.app/products/approved"),
       },
       {
         path: "/products",
@@ -61,7 +68,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/products/${params.id}`),
+          fetch(`https://bazaar-track-server.vercel.app/products/${params.id}`),
         HydrateFallback: Error,
       },
       {
@@ -80,7 +87,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         // loader: ({ params }) =>
-        //   fetch(`http://localhost:5000/products/approved/${params.id}`),
+        //   fetch(`https://bazaar-track-server.vercel.app/products/approved/${params.id}`),
       },
     ],
   },
@@ -119,7 +126,9 @@ export const router = createBrowserRouter([
             path: "/dashboard/trends",
             Component: TrendViewer,
             loader: () =>
-              fetch("http://localhost:5000/products/approved/trends"),
+              fetch(
+                "https://bazaar-track-server.vercel.app/products/approved/trends"
+              ),
             HydrateFallback: Error,
           },
           {
@@ -149,7 +158,9 @@ export const router = createBrowserRouter([
             path: "/dashboard/updateProduct/:id",
             Component: UpdateProduct,
             loader: ({ params }) =>
-              fetch(`http://localhost:5000/products/${params.id}`),
+              fetch(
+                `https://bazaar-track-server.vercel.app/products/${params.id}`
+              ),
             HydrateFallback: Error,
           },
           {
@@ -178,7 +189,9 @@ export const router = createBrowserRouter([
             path: "/dashboard/adminProductUP/:id",
             Component: UpdateProduct,
             loader: ({ params }) =>
-              fetch(`http://localhost:5000/products/${params.id}`),
+              fetch(
+                `https://bazaar-track-server.vercel.app/products/${params.id}`
+              ),
             HydrateFallback: Error,
           },
           {
