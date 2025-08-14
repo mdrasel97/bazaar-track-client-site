@@ -8,6 +8,18 @@
 
 ---
 
+## 🚀 Screenshots
+
+### Home Page
+
+![Home Page](/src/assets/home.png)
+
+### Details page bazaar track
+
+![Details bazaar track](/src/assets/details.png)
+
+---
+
 ## 🚀 Features
 
 ### 👥 User Roles
