@@ -43,7 +43,7 @@ const ShoppingCart = () => {
   );
 
   // tax and total
-  const tax = +(subtotal * 0.08).toFixed(2); // 8% tax
+  const tax = +(subtotal * 0.0).toFixed(2); // 8% tax
   const shipping = 0;
   const total = (subtotal + tax + shipping).toFixed(2);
 
@@ -155,7 +155,7 @@ const ShoppingCart = () => {
               <span>Free</span>
             </div>
             <div className="flex justify-between ">
-              <span>Tax (8%)</span>
+              <span>Tax (0%)</span>
               <span>৳ {tax}</span>
             </div>
             <hr />
@@ -165,12 +165,12 @@ const ShoppingCart = () => {
             </div>
             <Button
               onClick={handleCheckout}
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
             >
               Proceed to Checkout
             </Button>
 
-            <div>
+            <div className="text-center text-underline">
               <Link to={"/products"}>Continue Shopping </Link>
             </div>
           </div>

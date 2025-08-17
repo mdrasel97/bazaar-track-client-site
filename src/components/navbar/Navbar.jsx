@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,14 +13,18 @@ import { CartContext } from "../../context/CartContext";
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  // const [filteredProducts, setFilteredProducts] = useState(products);
   const { user } = useAuth();
   const { totalItems } = useContext(CartContext);
   // const { email, name } = useContext(AuthContext);
   // console.log(email, name);
+  const navigate = useNavigate();
+
   const handleSearch = (e) => {
     e.preventDefault();
-    // console.log("Searching for:", searchQuery);
-    // Navigate or filter logic here
+    if (searchQuery.trim() !== "") {
+      navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   return (
