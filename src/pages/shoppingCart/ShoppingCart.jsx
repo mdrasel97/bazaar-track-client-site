@@ -11,6 +11,7 @@ const ShoppingCart = () => {
   // const [cartItems, setCartItems] = useState([]);
   const { cartItems, updateCart } = useContext(CartContext);
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const handleQuantityChange = (id, delta) => {
     const updatedCart = cartItems.map((item) =>
@@ -43,7 +44,7 @@ const ShoppingCart = () => {
   );
 
   // tax and total
-  const tax = +(subtotal * 0.0).toFixed(2); // 8% tax
+  const tax = +(subtotal * 0.0).toFixed(2); // 0% tax
   const shipping = 0;
   const total = (subtotal + tax + shipping).toFixed(2);
 
@@ -57,7 +58,7 @@ const ShoppingCart = () => {
         createdAt: new Date(),
       };
 
-      const response = await useAxiosSecure.post("/cartCheckOut", orderData);
+      const response = await axiosSecure.post("/cartCheckOut", orderData);
 
       if (response.status === 201) {
         toast.success("🛒 Order placed successfully!");
@@ -79,9 +80,7 @@ const ShoppingCart = () => {
       </p>
 
       {cartItems.length === 0 ? (
-        <div className="text-center text-gray-500 py-10">
-          Your cart is empty.
-        </div>
+        <div className="text-center h-[200px] py-10">Your cart is empty.</div>
       ) : (
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Cart Items */}

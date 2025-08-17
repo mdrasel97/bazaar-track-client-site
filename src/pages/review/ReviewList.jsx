@@ -1,7 +1,7 @@
 // components/review/ReviewList.jsx
 import React, { useEffect, useState } from "react";
 import useAxios from "@/hooks/useAxios";
-import { Star } from "lucide-react"; // ✅ Make sure Star is imported
+import { Star } from "lucide-react";
 
 const ReviewList = ({ productId }) => {
   const axiosSecure = useAxios();
@@ -29,7 +29,7 @@ const ReviewList = ({ productId }) => {
     };
 
     fetchReviews();
-  }, [productId, axiosSecure]); // dependency should be productId, not _id
+  }, [productId, axiosSecure]);
 
   return (
     <div className="flex items-center mb-3">
